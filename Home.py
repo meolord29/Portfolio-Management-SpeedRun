@@ -34,6 +34,11 @@ name, authentication_status, username = authenticator.login("Login", "main")
 if authentication_status:
     st.session_state.authentication_status = True
     authenticator.logout('**Logout**', 'main', key='unique_key')
+    
+    
+    st.header(f"Welcome {authenticator.cookie_name}!")
+    
+    
 elif authentication_status is False:
     st.session_state.authentication_status = False
     st.error('Username/password is incorrect')
