@@ -10,14 +10,15 @@ def run_company_analytics_vs_SnP500(company_tag):
         stock = qs.utils.download_returns(company_tag)
         
         
-        qs.reports.html(stock, "^GSPC", output=f'./database/temporary_reports/report_{company_tag}.html')
+        report = qs.reports.html(stock, "^GSPC") #output=f'./database/temporary_reports/report_{company_tag}.html')
         
         # bootstrap 4 collapse example
         st.header(f"Report for {company_tag} vs S&P500:")
 
-        HtmlFile = open(f'./database/temporary_reports/report_{company_tag}.html', 'r', encoding='utf-8')
-        source_code = HtmlFile.read()
-        #print(source_code)
+        #HtmlFile = open(f'./database/temporary_reports/report_{company_tag}.html', 'r', encoding='utf-8')
+        #source_code = HtmlFile.read()
+        #print(source_code).
+        source_code = report
         components.html(source_code, height=6000)
     
     
