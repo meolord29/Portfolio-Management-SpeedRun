@@ -1,4 +1,4 @@
 venv/
-database/
+*.html
 finmarketpy.log
 __pycache__
