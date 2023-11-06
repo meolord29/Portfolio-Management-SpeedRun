@@ -7,9 +7,9 @@ import streamlit.components.v1 as components
 
 import tempfile
 
-def run_company_analytics_vs_SnP500(company_tag, temp_dir):
+def run_company_analytics_vs_SnP500(company_tag):
         # fetch the daily returns for a stock
-        
+        temp_dir = tempfile.TemporaryDirectory()
         
         #print(temp_dir.name)
         # use temp_dir, and when done:
@@ -32,7 +32,7 @@ def run_company_analytics_vs_SnP500(company_tag, temp_dir):
         #print(source_code).
         #source_code = report
         components.html(source_code, height=6000)
-    
+        temp_dir.cleanup()
     
     
 
@@ -41,11 +41,11 @@ if not st.session_state.authentication_status:
     st.stop()
     
 else:
-    temp_dir = tempfile.TemporaryDirectory()
+    
     company_tag = st.text_input('Enter a stock tag:', 'MSFT')
     if st.button("Run analytics and compare to S&P500"):
-        temp_dir.cleanup()
-        run_company_analytics_vs_SnP500(company_tag, temp_dir)
+        
+        run_company_analytics_vs_SnP500(company_tag)
         
         
     
