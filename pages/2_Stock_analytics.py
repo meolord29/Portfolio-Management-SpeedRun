@@ -17,7 +17,7 @@ def run_company_analytics_vs_SnP500(company_tag):
 
         HtmlFile = open(f'./database/temporary_reports/report_{company_tag}.html', 'r', encoding='utf-8')
         source_code = HtmlFile.read()
-        print(source_code)
+        #print(source_code)
         components.html(source_code, height=6000)
     
     
