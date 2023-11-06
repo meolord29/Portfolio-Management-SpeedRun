@@ -39,6 +39,13 @@ if authentication_status:
     st.header(f"Welcome {name}!")
     
     
+    with st.container():
+        st.write("Main body section will include a dashboard of key portfolio information (assumption, needs to be validated)")
+
+        # You can call any Streamlit command, including custom components:
+        st.bar_chart(np.random.randn(50, 3))
+    
+    
 elif authentication_status is False:
     st.session_state.authentication_status = False
     st.error('Username/password is incorrect')
