@@ -36,7 +36,7 @@ if authentication_status:
     authenticator.logout('**Logout**', 'main', key='unique_key')
     
     
-    st.header(f"Welcome {authenticator.cookie_name}!")
+    st.header(f"Welcome {name}!")
     
     
 elif authentication_status is False:
