@@ -45,7 +45,7 @@ def plot_ef_with_random(ef, n_samples=10000):
     ef_max_sharpe.max_sharpe()
     ret_tangent, std_tangent, _ = ef_max_sharpe.portfolio_performance()
     fig_ef.add_trace(go.Scatter(x=[std_tangent], y=[ret_tangent],
-                                marker=dict(size=10, symbol="star", color="Yellow"), name="Max Sharpe"))
+                                marker=dict(size=10, symbol="star", color="Blue"), name="Max Sharpe"))
 
     # Min Volatility
     ef_min_vol.min_volatility()
@@ -54,8 +54,9 @@ def plot_ef_with_random(ef, n_samples=10000):
                                 marker=dict(size=10, symbol="star", color="Green"), name="Min Volatility"))
 
     # Output
-    # plotting.plot_efficient_frontier(ef, ax=ax, show_assets=False)
     fig_ef.add_trace(plot_ef(ef))
+
+    fig_ef.update_layout(legend_x=1, legend_y=0)
 
     st.plotly_chart(fig_ef)
 
