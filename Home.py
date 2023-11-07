@@ -12,7 +12,6 @@ import yaml
 from yaml.loader import SafeLoader
 
 import plotly.express as px
-import plotly.figure_factory as ff
 
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
 
@@ -36,7 +35,6 @@ name, authentication_status, username = authenticator.login("Login", "main")
 
 if authentication_status:
     st.session_state.authentication_status = True
-    authenticator.logout('**Logout**', 'main', key='unique_key')
     
     with st.container():
     
@@ -77,7 +75,8 @@ if authentication_status:
         with main_col2:
             st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
         
-    
+    with st.container:
+        authenticator.logout('**Logout**', 'main', key='unique_key')
     
 elif authentication_status is False:
     st.session_state.authentication_status = False
