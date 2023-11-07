@@ -75,7 +75,7 @@ if authentication_status:
         with main_col2:
             st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
         
-    with st.container:
+    with st.container():
         authenticator.logout('**Logout**', 'main', key='unique_key')
     
 elif authentication_status is False:
