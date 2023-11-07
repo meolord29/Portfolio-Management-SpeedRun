@@ -69,8 +69,11 @@ if authentication_status:
                 df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries' # Represent only large countries
                 fig = px.pie(df, names='country', title='Equity Allocation by %')
                 
-                st.plotly_chart(fig, use_container_width=True)
-            
+                
+                plot_spot = st.empty() # holding the spot for the graph
+                with plot_spot:
+                    st.plotly_chart(fig, use_container_width=True)
+                    
         with main_col2:
             st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
         
