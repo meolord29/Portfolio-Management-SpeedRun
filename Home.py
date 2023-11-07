@@ -14,6 +14,7 @@ from yaml.loader import SafeLoader
 import plotly.express as px
 
 import requests
+from bs4 import BeautifulSoup
 
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
 
