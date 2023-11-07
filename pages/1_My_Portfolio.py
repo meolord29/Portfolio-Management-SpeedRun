@@ -19,7 +19,7 @@ def test_ef():
     stock_data = stock_data["Adj Close"]
     mu2 = expected_returns.mean_historical_return(stock_data)
     cov_matrix2 = risk_models.sample_cov(stock_data)
-    temp_ef = EfficientFrontier(mu2, cov_matrix2, weight_bounds=(None, None))
+    temp_ef = EfficientFrontier(mu2, cov_matrix2)
     return temp_ef
 
 
@@ -53,12 +53,23 @@ def plot_ef_with_random(ef, n_samples=10000):
 
     st.pyplot(fig)
 
+
+def plot_weights(input_ef):
+    ef1 = input_ef.deepcopy()
+    ef1.max_sharpe()
+    weights = ef1.clean_weights()
+    df1 = pd.DataFrame(weights, index=['Weight'])
+    df1 = df1.T
+    df1 = df1[df1['Weight'] != 0]  # Remove 0 values
+    return px.pie(df1, values='Weight', names=df1.index, title='Optimized Stock Allocation')
+
+
 if not st.session_state.authentication_status:
     st.info('Please Login from the Home page and try again.')
     st.stop()
     
 else:
-    
+    ef = test_ef()
     
     
     with st.container():
@@ -88,10 +99,10 @@ else:
                 
             with st.container():
         
-                df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
-                df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries' # Represent only large countries
-                fig = px.pie(df, names='country', title='Equity Allocation by %')
-                
+                #df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
+                #df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries' # Represent only large countries
+                #fig = px.pie(df, names='country', title='Equity Allocation by %')
+                fig = plot_weights(ef.deepcopy())
                 
                 plot_spot = st.empty() # holding the spot for the graph
                 with plot_spot:
@@ -101,7 +112,7 @@ else:
                 st.write('Loading Data...')
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
-                    plot_ef_with_random(test_ef())
+                    plot_ef_with_random(ef.deepcopy())
                     
         with main_col2:
             st.write("Additional information, search about any particular stock")
