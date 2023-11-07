@@ -11,6 +11,9 @@ import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
 
+import plotly.express as px
+import plotly.figure_factory as ff
+
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
 
 def st_authenticator():
@@ -35,26 +38,42 @@ if authentication_status:
     st.session_state.authentication_status = True
     authenticator.logout('**Logout**', 'main', key='unique_key')
     
+    with st.container():
     
-    st.header(f"Welcome {name}!")
+        st.header(f"Welcome {name}!")
     
+    main_col1, main_col2, = st.columns(2)
     
     with st.container():
-        st.write("Main body section will include a dashboard of key portfolio information (assumption, needs to be validated)")
+        with main_col1:
+            with st.container():
+                expected_return_col, expected_risk_col, = st.columns(2)
+                with expected_return_col:
+                    st.write("Expected return 0.5")
+                
+                with expected_risk_col:
+                    st.write("Expected risk %")
+                    
+            with st.container():
+                total_invested_col, ESG_risk_col, = st.columns(2)
+                with total_invested_col:
+                    st.write("Total amount invested: 10000")
+                
+                with ESG_risk_col:
+                    st.write("Average ESG Risk %")
 
-        # You can call any Streamlit command, including custom components:
-        st.bar_chart(np.random.randn(50, 3))
+                
+            with st.container():
         
+                df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
+                df.loc[df['pop'] < 2.e6, 'country'] = 'Other countries' # Represent only large countries
+                fig = px.pie(df, names='country', title='Equity Allocation by %')
+                
+                st.plotly_chart(fig, use_container_width=True)
+            
+        with main_col2:
+            st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
         
-    with st.container():
-        col1, col2 = st.columns([3, 1])
-        data = np.random.randn(10, 1)
-
-        col1.subheader("A wide column with a chart")
-        col1.line_chart(data)
-
-        col2.subheader("A narrow column with the data")
-        col2.write(data)
     
     
 elif authentication_status is False:
