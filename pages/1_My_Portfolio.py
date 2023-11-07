@@ -7,7 +7,7 @@ from yaml.loader import SafeLoader
 
 import plotly.express as px
 
-from pypfopt import risk_models, expected_returns, plotting, EfficientFrontier
+from pypfopt import risk_models, expected_returns, EfficientFrontier #plotting, 
 import matplotlib.pyplot as plt
 from datetime import date
 import yfinance as yf
