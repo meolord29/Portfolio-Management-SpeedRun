@@ -69,7 +69,7 @@ if not st.session_state.authentication_status:
     st.stop()
     
 else:
-    ef = test_ef()
+
     
     
     with st.container():
@@ -96,7 +96,7 @@ else:
                 with ESG_risk_col:
                     st.write("Average ESG Risk %")
 
-                
+            ef = test_ef()
             with st.container():
         
                 #df = px.data.gapminder().query("year == 2007").query("continent == 'Europe'")
