@@ -48,11 +48,14 @@ if authentication_status:
     with st.container():
         with main_col1:
             with st.container():
-                r = requests.get('https://finance.yahoo.com/topic/economic-news')
-                html = r.text
+                #r = requests.get('https://finance.yahoo.com/topic/economic-news')
+                #html = r.text
+                #mrt-node-Fin-Stream
 
                 # parse the HTML
-                soup = BeautifulSoup(html, "html.parser")
+                #soup = BeautifulSoup(html, "html.parser")
+                
+                st.write("TEST")
                     
         with main_col2:
             st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
