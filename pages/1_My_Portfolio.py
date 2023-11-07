@@ -85,10 +85,17 @@ else:
 
     with st.container():
         with main_col1:
+
+            with st.spinner('Loading Data...'):
+                ef = test_ef()
+                ef_data = ef.deepcopy()
+                ef_data.max_sharpe()
+                metrics = ef_data.portfolio_performance()
+
             with st.container():
                 expected_return_col, expected_risk_col, = st.columns(2)
                 with expected_return_col:
-                    st.write("Expected return 0.5")
+                    st.write(f"Expected Annual Return: {round(metrics[0]*100,2)}%")
 
                 with expected_risk_col:
                     st.write("Expected risk %")
@@ -101,9 +108,7 @@ else:
                 with ESG_risk_col:
                     st.write("Average ESG Risk %")
 
-            ef = test_ef()
             with st.container():
-                st.write('Loading Data...')
 
                 fig = plot_weights(ef.deepcopy())
 
