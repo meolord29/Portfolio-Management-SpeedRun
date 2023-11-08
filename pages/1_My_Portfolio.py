@@ -140,7 +140,7 @@ else:
             with st.container():
                 total_invested_col, ESG_risk_col, = st.columns(2)
                 with total_invested_col:
-                    st.metric(label='Total Amount Invested', value=sum(sample_portfolio))
+                    st.metric(label='Total Amount Invested', value=str(sum(sample_portfolio)))
 
                 with ESG_risk_col:
                     st.metric(label='Average ESG Risk', value='69%')
