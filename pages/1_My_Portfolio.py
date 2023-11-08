@@ -26,6 +26,12 @@ def test_ef():
     return temp_ef
 
 
+def dl_stock_data(tickers, start="2020-6-01", end=date.today()):
+    stock_data = yf.download(tickers, start=start, end=end)
+    stock_data = stock_data["Adj Close"]
+    return stock_data
+
+
 def plot_ef_with_random(ef, n_samples=10000):
     # fig, ax = plt.subplots()
     ef_max_sharpe = ef.deepcopy()
@@ -95,10 +101,10 @@ else:
             with st.container():
                 expected_return_col, expected_risk_col, = st.columns(2)
                 with expected_return_col:
-                    st.write(f"Expected Annual Return: {round(metrics[0]*100,2)}%")
+                    st.metric(label="Expected Annual Return", value=f"{round(metrics[0]*100,2)}%")
 
                 with expected_risk_col:
-                    st.write("Expected risk %")
+                    st.metric(label='Annual Volatility', value=f"{round(metrics[1]*100,2)}%")
 
             with st.container():
                 total_invested_col, ESG_risk_col, = st.columns(2)
