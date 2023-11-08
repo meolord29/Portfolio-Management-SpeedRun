@@ -41,9 +41,9 @@ def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
     #ytd_data = dl_stock_data(indices, period='2d')
     indices_data = dl_stock_data(indices, period='2d')
     chg = []
-    for i in indices:
+    for i in indices_data.columns:
         chg.append(round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
-    return list(indices_data.iloc[-1]), chg
+    return indices_data.iloc[-1], chg
 
 
 def plot_stock(stock_data, name):
@@ -141,9 +141,9 @@ else:
             index_list, chg_list = get_indices_now()
 
             col1, col2, col3 = st.columns(3)
-            col1.metric("NASDAQ Composite", str(index_list[0]), f"{chg_list[0]}%")
-            col2.metric("NYSE Composite", str(index_list[1]), f"{chg_list[1]}%")
-            col3.metric("S&P 500", str(index_list[2]), f"{chg_list[2]}%")
+            col1.metric("NASDAQ Composite", str(index_list['^IXIC']), f"{chg_list[0]}%")
+            col2.metric("NYSE Composite", str(index_list['^NYA']), f"{chg_list[1]}%")
+            col3.metric("S&P 500", str(index_list['^GSPC']), f"{chg_list[2]}%")
 
         st.header(f"My Portfolio")
         plot_spot = st.empty()  # holding the spot for the graph
