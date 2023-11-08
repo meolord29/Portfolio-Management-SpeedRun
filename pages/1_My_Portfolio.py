@@ -26,9 +26,15 @@ def test_ef():
     return temp_ef, cov_matrix2
 
 
-def dl_stock_data(tickers, start="2020-6-01", end=date.today()):
-    stock_data = yf.download(tickers, start=start, end=end)
-    stock_data = stock_data["Adj Close"]
+def dl_stock_data(tickers, interval=None, start="2021-01-01", end=date.today(), col='Adj Close'):
+    if interval:
+        stock_data = yf.download(tickers, interval=interval)
+    else:
+        stock_data = yf.download(tickers, start=start, end=end)
+    if col in ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']:
+        stock_data = stock_data[col]
+    else:
+        raise NameError('Invalid Column Name')
     return stock_data
 
 
@@ -82,6 +88,22 @@ def plot_correlation(df):
     return px.imshow(cor_df, title='Stocks Correlation')
 
 
+def plot_portfolio(amounts):
+    cols = ['Cash', 'Stocks', 'Bonds']
+    df2 = pd.DataFrame(zip(cols, amounts, [1, 1, 1]), columns=['Categories', 'prop', 'st'])
+
+    fig = px.histogram(df2, x='prop', y='st', orientation='h', color='Categories', height=250, barnorm="percent",
+                       text_auto=True)
+    fig.update_layout(
+        plot_bgcolor='rgba(0,0,0,0)',
+        xaxis=dict(visible=False),
+        yaxis=dict(visible=False),
+        legend=dict(orientation='h', x=0.2),
+        legend_title=None
+    )
+    return fig
+
+
 if not st.session_state.authentication_status:
     st.info('Please Login from the Home page and try again.')
     st.stop()
@@ -91,6 +113,9 @@ else:
     with st.container():
 
         st.header(f"My Portfolio")
+        plot_spot = st.empty()  # holding the spot for the graph
+        with plot_spot:
+            st.plotly_chart(plot_portfolio([3000, 5000, 2000]))
 
     main_col1, main_col2, = st.columns(2)
 
@@ -115,6 +140,7 @@ else:
                 total_invested_col, ESG_risk_col, = st.columns(2)
                 with total_invested_col:
                     st.write("Total amount invested: 10000")
+                    st.metric(label='Total A')
 
                 with ESG_risk_col:
                     st.write("Average ESG Risk %")
