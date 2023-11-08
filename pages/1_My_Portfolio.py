@@ -27,15 +27,18 @@ def test_ef():
 
 
 def dl_stock_data(tickers, interval=None, start="2021-01-01", end=date.today(), col='Adj Close'):
-    if interval:
-        stock_data = yf.download(tickers, interval=interval)
-    else:
-        stock_data = yf.download(tickers, start=start, end=end)
+    stock_data = yf.download(tickers, interval=interval, start=start, end=end)
     if col in ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']:
         stock_data = stock_data[col]
     else:
         raise NameError('Invalid Column Name')
     return stock_data
+
+
+def plot_stock(stock_data, name):
+    fig_stock = px.line(list(stock_data), title=f'Stock Data for{name}')
+    fig_stock.update_layout(showlegend=False, yaxis_title='US$')
+    return fig_stock
 
 
 def plot_ef_with_random(ef, n_samples=10000):
@@ -50,7 +53,7 @@ def plot_ef_with_random(ef, n_samples=10000):
     sharpes = rets / stds
 
     rd_df = pd.DataFrame(list(zip(stds, rets)), columns=['stds', 'rets'])
-    fig_ef = px.scatter(rd_df, x='stds', y='rets', color=sharpes, color_continuous_scale="viridis",
+    fig_ef = px.scatter(rd_df, x='stds', y='rets', color=sharpes, color_continuous_scale="viridis_r",
                         title="Efficient Frontier with random portfolios")
 
     # Find the tangency portfolio
@@ -70,7 +73,7 @@ def plot_ef_with_random(ef, n_samples=10000):
 
     fig_ef.update_layout(legend_x=1, legend_y=0)
 
-    st.plotly_chart(fig_ef)
+    return fig_ef
 
 
 def plot_weights(input_ef):
@@ -156,7 +159,7 @@ else:
             with st.container():
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
-                    plot_ef_with_random(ef.deepcopy())
+                    st.plotly_chart(plot_ef_with_random(ef.deepcopy()))
 
             with st.container():
                 fig2 = plot_correlation(cov_matrix)
@@ -166,3 +169,10 @@ else:
 
         with main_col2:
             st.write("Additional information, search about any particular stock")
+
+            msft = dl_stock_data('MSFT')
+
+            with st.container():
+                plot_spot = st.empty()  # holding the spot for the graph
+                with plot_spot:
+                    st.plotly_chart(plot_stock(msft, 'MSFT'))
