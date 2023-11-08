@@ -43,7 +43,7 @@ def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
     chg = []
     for i in indices_data.columns:
         chg.append(round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
-    return indices_data.iloc[-1], chg
+    return indices_data.iloc[-1].round(2), chg
 
 
 def plot_stock(stock_data, name):
