@@ -110,12 +110,13 @@ if not st.session_state.authentication_status:
 
 else:
 
+    sample_portfolio = [3000, 5000, 2000]
     with st.container():
 
         st.header(f"My Portfolio")
         plot_spot = st.empty()  # holding the spot for the graph
         with plot_spot:
-            st.plotly_chart(plot_portfolio([3000, 5000, 2000]))
+            st.plotly_chart(plot_portfolio(sample_portfolio))
 
     main_col1, main_col2, = st.columns(2)
 
@@ -139,11 +140,10 @@ else:
             with st.container():
                 total_invested_col, ESG_risk_col, = st.columns(2)
                 with total_invested_col:
-                    st.write("Total amount invested: 10000")
-                    st.metric(label='Total A')
+                    st.metric(label='Total Amount Invested', value=sum(sample_portfolio))
 
                 with ESG_risk_col:
-                    st.write("Average ESG Risk %")
+                    st.metric(label='Average ESG Risk', value='69%')
 
             with st.container():
 
