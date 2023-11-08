@@ -77,6 +77,11 @@ def plot_weights(input_ef):
     return px.pie(df1, values='Weight', names=df1.index, title='Optimized Stock Allocation')
 
 
+def plot_covariance(df):
+    cor_df = risk_models.cov_to_corr(df)
+    return px.imshow(cor_df, title='Stocks Correlation')
+
+
 if not st.session_state.authentication_status:
     st.info('Please Login from the Home page and try again.')
     st.stop()
@@ -126,6 +131,11 @@ else:
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
                     plot_ef_with_random(ef.deepcopy())
+
+            with st.container():
+                plot_spot = st.empty()  # holding the spot for the graph
+                with plot_spot:
+                    st.plotly_chart(fig, use_container_width=True)
 
         with main_col2:
             st.write("Additional information, search about any particular stock")
