@@ -23,7 +23,7 @@ def test_ef():
     mu2 = expected_returns.mean_historical_return(stock_data)
     cov_matrix2 = risk_models.sample_cov(stock_data)
     temp_ef = EfficientFrontier(mu2, cov_matrix2)
-    return temp_ef
+    return temp_ef, cov_matrix2
 
 
 def dl_stock_data(tickers, start="2020-6-01", end=date.today()):
@@ -77,7 +77,7 @@ def plot_weights(input_ef):
     return px.pie(df1, values='Weight', names=df1.index, title='Optimized Stock Allocation')
 
 
-def plot_covariance(df):
+def plot_correlation(df):
     cor_df = risk_models.cov_to_corr(df)
     return px.imshow(cor_df, title='Stocks Correlation')
 
@@ -98,7 +98,7 @@ else:
         with main_col1:
 
             with st.spinner('Loading Data...'):
-                ef = test_ef()
+                ef, cov_matrix = test_ef()
                 ef_data = ef.deepcopy()
                 ef_data.max_sharpe()
                 metrics = ef_data.portfolio_performance()
@@ -133,9 +133,10 @@ else:
                     plot_ef_with_random(ef.deepcopy())
 
             with st.container():
+                fig2 = plot_correlation(cov_matrix)
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
-                    st.plotly_chart(fig, use_container_width=True)
+                    st.plotly_chart(fig2, use_container_width=True)
 
         with main_col2:
             st.write("Additional information, search about any particular stock")
