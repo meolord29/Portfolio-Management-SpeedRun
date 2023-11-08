@@ -42,7 +42,7 @@ def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
     indices_data = dl_stock_data(indices, period='2d')
     chg = []
     for i in indices:
-        chg.append(round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100),2)
+        chg.append(round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
     return list(indices_data.iloc[-1]), chg
 
 
