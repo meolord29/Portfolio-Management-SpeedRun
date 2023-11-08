@@ -175,4 +175,4 @@ else:
             with st.container():
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
-                    st.plotly_chart(plot_stock(msft, 'MSFT'))
+                    st.plotly_chart(plot_stock(msft, 'MSFT'), use_container_width=True)
