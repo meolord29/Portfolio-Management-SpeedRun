@@ -26,7 +26,7 @@ def test_ef():
     return temp_ef, cov_matrix2
 
 
-def dl_stock_data(tickers, interval=None, start="2021-01-01", end=date.today(), col='Adj Close'):
+def dl_stock_data(tickers, interval='1d', start="2021-01-01", end=date.today(), col='Adj Close'):
     stock_data = yf.download(tickers, interval=interval, start=start, end=end)
     if col in ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']:
         stock_data = stock_data[col]
