@@ -36,7 +36,7 @@ def dl_stock_data(tickers, interval='1d', start="2021-01-01", end=date.today(), 
 
 
 def plot_stock(stock_data, name):
-    fig_stock = px.line(stock_data, title=f'Stock Data for{name}')
+    fig_stock = px.line(stock_data, title=f'Stock Data for {name}')
     fig_stock.update_layout(showlegend=False, yaxis_title='US$')
     return fig_stock
 
@@ -96,7 +96,7 @@ def plot_portfolio(amounts):
     df2 = pd.DataFrame(zip(cols, amounts, [1, 1, 1]), columns=['Categories', 'prop', 'st'])
 
     fig = px.histogram(df2, x='prop', y='st', orientation='h', color='Categories', height=250, barnorm="percent",
-                       text_auto=True)
+                       text_auto=True, color_discrete_sequence=px.colors.qualitative.Set2)
     fig.update_layout(
         plot_bgcolor='rgba(0,0,0,0)',
         xaxis=dict(visible=False),
@@ -113,7 +113,18 @@ if not st.session_state.authentication_status:
 
 else:
 
+    # Initialisation
     sample_portfolio = [3000, 5000, 2000]
+    companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
+                 "JPM", "SBUX"]
+
+    with st.spinner('Loading Data...'):
+        ef, cov_matrix = test_ef()
+        ef_data = ef.deepcopy()
+        ef_data.max_sharpe()
+        metrics = ef_data.portfolio_performance()
+
+
     with st.container():
 
         st.header(f"My Portfolio")
@@ -126,11 +137,7 @@ else:
     with st.container():
         with main_col1:
 
-            with st.spinner('Loading Data...'):
-                ef, cov_matrix = test_ef()
-                ef_data = ef.deepcopy()
-                ef_data.max_sharpe()
-                metrics = ef_data.portfolio_performance()
+
 
             with st.container():
                 expected_return_col, expected_risk_col, = st.columns(2)
@@ -170,9 +177,16 @@ else:
         with main_col2:
             st.write("Additional information, search about any particular stock")
 
-            msft = dl_stock_data('MSFT')
+            option = st.selectbox(
+                "Stock Information?",
+                companies,
+                index=None,
+                placeholder="Select Stock...",
+            )
+
+            stock_adj_close = dl_stock_data(option)
 
             with st.container():
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
-                    st.plotly_chart(plot_stock(msft, 'MSFT'), use_container_width=True)
+                    st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
