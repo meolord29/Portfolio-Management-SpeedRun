@@ -68,13 +68,13 @@ if authentication_status:
 
                 # parse the HTML
                 #soup = BeautifulSoup(html, "html.parser")
-                st.header('Latest Financial and Business News')
+                st.subheaderheader('Latest Financial and Business News')
                 st.divider()
 
                 yh_news = dl_yh_news()
                 for i in range(min(10, len(yh_news))):
                     item = yh_news.iloc[i]
-                    st.write(item['title'])
+                    st.write(f"**{item['title']}**")
                     st.caption(item['desc'][:item['desc'].find(' ', 250)])
                     st.caption('[Read more...](%s)' % item['link'])
                     st.write('')
