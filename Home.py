@@ -68,7 +68,7 @@ if authentication_status:
 
                 # parse the HTML
                 #soup = BeautifulSoup(html, "html.parser")
-                st.subheaderheader('Latest Financial and Business News')
+                st.subheader('Latest Financial and Business News')
                 st.divider()
 
                 yh_news = dl_yh_news()
