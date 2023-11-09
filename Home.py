@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from datetime import date, datetime, timedelta
 
 import streamlit as st
 import streamlit_authenticator as stauth
@@ -10,6 +11,8 @@ import plotly.express as px
 
 import requests
 from bs4 import BeautifulSoup
+
+from ef_plotly import dl_stock_data, plot_stock
 
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
 
@@ -75,13 +78,36 @@ if authentication_status:
                 for i in range(min(10, len(yh_news))):
                     item = yh_news.iloc[i]
                     st.write(f"**{item['title']}**")
-                    st.caption(item['desc'][:item['desc'].find(' ', 250)])
+                    st.caption(item['desc'][:item['desc'].find(' ', 200)]+'...')
                     st.caption('[Read more...](%s)' % item['link'])
                     st.write('')
-
                     
         with main_col2:
             st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
+
+            companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
+                         "PFE", "JPM", "SBUX"]
+            option = st.selectbox(
+                "Specific Stock Related News",
+                companies,
+                index=None,
+                placeholder="Select Stock...",
+            )
+
+            if option:
+                stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
+
+                with st.container():
+                    plot_spot = st.empty()  # holding the spot for the graph
+                    with plot_spot:
+                        st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
+
+                stock_news = dl_yh_news(f'https://www.finance.yahoo.com/quote/{option}?p={option}&.tsrc=fin-srch')
+                for i in range(min(5, len(yh_news))):
+                    item = yh_news.iloc[i]
+                    st.write(f"**{item['title']}**")
+                    st.caption(item['desc'][:item['desc'].find(' ', 200)] + '[Read more...](%s)' % item['link'])
+                    st.write('')
         
     with st.container():
         authenticator.logout('**Logout**', 'main', key='unique_key')

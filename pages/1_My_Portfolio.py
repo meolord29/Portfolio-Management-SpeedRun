@@ -8,10 +8,9 @@ from yaml.loader import SafeLoader
 import plotly.express as px
 import plotly.graph_objects as go
 
-from pypfopt import risk_models, expected_returns, EfficientFrontier  # plotting,
-from datetime import date, timedelta
+from pypfopt import risk_models, expected_returns
 import yfinance as yf
-from ef_plotly import plot_ef
+from ef_plotly import *
 
 
 def test_ef():
@@ -25,18 +24,6 @@ def test_ef():
     return temp_ef, cov_matrix2
 
 
-def dl_stock_data(tickers, period=None, interval='1d', start="2021-01-01", end=date.today(), col='Adj Close'):
-    if period:
-        stock_data = yf.download(tickers, period=period, interval=interval)
-    else:
-        stock_data = yf.download(tickers, interval=interval, start=start, end=end)
-    if col in ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']:
-        stock_data = stock_data[col]
-    else:
-        raise NameError('Invalid Column Name')
-    return stock_data
-
-
 def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
     #ytd_data = dl_stock_data(indices, period='2d')
     indices_data = dl_stock_data(indices, period='2d')
@@ -44,12 +31,6 @@ def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
     for i in indices_data.columns:
         chg[i] = (round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
     return indices_data.iloc[-1].round(2), chg
-
-
-def plot_stock(stock_data, name):
-    fig_stock = px.line(stock_data, title=f'Stock Data for {name}')
-    fig_stock.update_layout(showlegend=False, yaxis_title='US$')
-    return fig_stock
 
 
 def plot_ef_with_random(ef, n_samples=10000):
@@ -192,13 +173,14 @@ else:
 
         with main_col2:
             option = st.selectbox(
-                "Stock Information?",
+                "Stock Information:",
                 companies,
                 index=None,
                 placeholder="Select Stock...",
             )
 
-            stock_adj_close = dl_stock_data(option)
+            if option:
+                stock_adj_close = dl_stock_data(option)
 
             with st.container():
                 plot_spot = st.empty()  # holding the spot for the graph
