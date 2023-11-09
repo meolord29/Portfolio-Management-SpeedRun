@@ -22,7 +22,7 @@ def dl_yh_news(link='https://www.finance.yahoo.com/news'):
     soup = BeautifulSoup(res.content, 'html.parser')
     news = []
     for e in soup.select('div:has(>h3>a)'):
-        try: # Some may not contain content
+        try:  # Some may not contain content
             text = e.p.text
         except:
             text = ' '
@@ -50,27 +50,28 @@ def st_authenticator():
 
     return authenticator
 
-authenticator  = st_authenticator()
+
+authenticator = st_authenticator()
 name, authentication_status, username = authenticator.login("Login", "main")
 
 if authentication_status:
     st.session_state.authentication_status = True
-    
+
     with st.container():
-    
+
         st.header(f"Welcome {name}!")
-    
+
     main_col1, main_col2, = st.columns(2)
-    
+
     with st.container():
         with main_col1:
             with st.container():
-                #r = requests.get('https://finance.yahoo.com/news')
-                #html = r.text
-                #mrt-node-Fin-Stream
+                # r = requests.get('https://finance.yahoo.com/news')
+                # html = r.text
+                # mrt-node-Fin-Stream
 
                 # parse the HTML
-                #soup = BeautifulSoup(html, "html.parser")
+                # soup = BeautifulSoup(html, "html.parser")
                 st.subheader('Latest Financial and Business News')
                 st.divider()
 
@@ -80,7 +81,7 @@ if authentication_status:
                     st.write(f"**{item['title']}**")
                     st.caption(item['desc'][:item['desc'].find(' ', 200)] + '... [Read more](%s)' % item['link'])
                     st.write('')
-                    
+
         with main_col2:
 
             companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
@@ -107,19 +108,13 @@ if authentication_status:
                     st.write(f"**{item['title']}**")
                     st.caption(item['desc'][:item['desc'].find(' ', 200)] + '... [Read more](%s)' % item['link'])
                     st.write('')
-        
+
     with st.container():
         authenticator.logout('**Logout**', 'main', key='unique_key')
-    
+
 elif authentication_status is False:
     st.session_state.authentication_status = False
     st.error('Username/password is incorrect')
 elif authentication_status is None:
     st.session_state.authentication_status = None
     st.warning('Please enter your username and password')
-
-
-
-
-
-

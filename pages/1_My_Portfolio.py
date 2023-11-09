@@ -8,7 +8,7 @@ from yaml.loader import SafeLoader
 import plotly.express as px
 import plotly.graph_objects as go
 
-from pypfopt import risk_models, expected_returns
+from pypfopt import risk_models, expected_returns, EfficientFrontier
 import yfinance as yf
 from ef_plotly import *
 
