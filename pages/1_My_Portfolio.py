@@ -96,7 +96,7 @@ else:
         ef_data = ef.deepcopy()
         ef_data.max_sharpe()
         metrics = ef_data.portfolio_performance()
-        weights = ef.clean_weights()
+        weights = ef_data.clean_weights()
 
     with st.container():
 
