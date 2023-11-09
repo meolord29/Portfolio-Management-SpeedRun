@@ -1,15 +1,6 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import streamlit_authenticator as stauth
-import yaml
-from yaml.loader import SafeLoader
-
-import plotly.express as px
-import plotly.graph_objects as go
 
 from pypfopt import risk_models, expected_returns, EfficientFrontier
-import yfinance as yf
 from utilities import *
 
 

@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 
 import streamlit as st
 import streamlit_authenticator as stauth
@@ -105,7 +104,7 @@ if authentication_status:
                 stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
 
                 chg = round((stock[-1] - stock[-2]) / stock[-2] * 100, 2)
-                st.metric(option, str(round(stock[-1],2)), f"{chg}%")
+                st.metric(option, 'US$' + str(round(stock[-1], 2)), f"{chg}%")
 
                 with st.container():
                     plot_spot = st.empty()  # holding the spot for the graph

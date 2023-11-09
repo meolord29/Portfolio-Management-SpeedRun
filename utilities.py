@@ -9,6 +9,7 @@ import yfinance as yf
 import requests
 from bs4 import BeautifulSoup
 
+
 def dl_stock_data(tickers, period=None, interval='1d', start="2021-01-01", end=date.today(), col='Adj Close'):
     if period:
         stock_data = yf.download(tickers, period=period, interval=interval)
@@ -22,11 +23,11 @@ def dl_stock_data(tickers, period=None, interval='1d', start="2021-01-01", end=d
 
 
 def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
-    #ytd_data = dl_stock_data(indices, period='2d')
+    # ytd_data = dl_stock_data(indices, period='2d')
     indices_data = dl_stock_data(indices, period='2d')
     chg = {}
     for i in indices_data.columns:
-        chg[i] = (round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
+        chg[i] = (round((indices_data[i][-1] - indices_data[i][-2]) / indices_data[i][-2] * 100, 2))
     return indices_data.iloc[-1].round(2), chg
 
 
@@ -84,7 +85,7 @@ def _ef_default_returns_range(ef, points):
     return np.linspace(min_ret, max_ret - 0.0001, points)
 
 
-def plot_ef(ef,  ef_param_range=None, points=100):
+def plot_ef(ef, ef_param_range=None, points=100):
     """
     Helper function to plot the efficient frontier from an EfficientFrontier object
     """
