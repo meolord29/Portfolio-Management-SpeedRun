@@ -96,7 +96,7 @@ else:
         ef_data = ef.deepcopy()
         ef_data.max_sharpe()
         metrics = ef_data.portfolio_performance()
-        weights = ef_data.clean_weights()
+        df_weights = get_weights(ef.deepcopy())
 
     with st.container():
 
@@ -132,10 +132,9 @@ else:
                     st.metric(label='Total Amount Invested', value=str(sum(sample_portfolio)))
 
                 with ESG_risk_col:
-                    st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
+                    st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(df_weights), 2)))
 
             with st.container():
-                df_weights = get_weights(ef.deepcopy())
                 fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
 
                 plot_spot = st.empty()  # holding the spot for the graph
