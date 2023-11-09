@@ -100,6 +100,10 @@ if authentication_status:
             )
 
             if option:
+
+                price, chg = get_indices_now(option)
+                st.metric(option, str(index_list[option]), f"{chg_list[option]}%")
+
                 stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
 
                 with st.container():
@@ -108,6 +112,7 @@ if authentication_status:
                         st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
 
                 stock_news = dl_yh_news(f'https://www.finance.yahoo.com/quote/{option}?p={option}&.tsrc=fin-srch')
+                st.write(f'**{option} Related News:**')
 
                 for i in range(min(5, len(stock_news))):
                     item = stock_news.iloc[i]
