@@ -182,7 +182,7 @@ else:
             if option:
                 stock_adj_close = dl_stock_data(option)
 
-            with st.container():
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
+                with st.container():
+                    plot_spot = st.empty()  # holding the spot for the graph
+                    with plot_spot:
+                        st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
