@@ -68,16 +68,15 @@ if authentication_status:
 
                 # parse the HTML
                 #soup = BeautifulSoup(html, "html.parser")
+                st.header('Latest Financial and Business News\n')
 
                 yh_news = dl_yh_news()
                 for i in range(min(10, len(yh_news))):
-                    st.subheader(f"[{yh_news.iloc[i]['title']}](%s)" % yh_news.iloc[i]['link'])
-                    st.markdown(yh_news.iloc[i]['desc'])
-                    st.write('')
-                    #st.write('[Read more...]' % yh_news.iloc[i]['link'])
+                    st.subheader(yh_news.iloc[i]['title'])
+                    st.caption(yh_news.iloc[i]['desc'][:200])
+                    st.caption('[Read more...](%s)' % yh_news.iloc[i]['link'])
+                    st.divider()
 
-
-                st.write("TEST")
                     
         with main_col2:
             st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
