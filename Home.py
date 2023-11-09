@@ -13,6 +13,25 @@ from bs4 import BeautifulSoup
 
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
 
+
+def dl_yh_news(link='https://www.finance.yahoo.com/news'):
+    res = requests.get(link)
+    soup = BeautifulSoup(res.content, 'html.parser')
+    news = []
+    for e in soup.select('div:has(>h3>a)'):
+        try: # Some may not contain content
+            text = e.p.text
+        except:
+            text = ' '
+        if e.a['href'].startswith('https://'):
+            link = e.a['href']
+        else:
+            link = 'http://www.finance.yahoo.com' + e.a['href']
+
+        news.append((e.h3.text, link, text))
+    return pd.DataFrame(news, columns=['title', 'link', 'desc'])
+
+
 def st_authenticator():
     with open('database/credentials/config.yaml') as file:
         config = yaml.load(file, Loader=SafeLoader)
@@ -43,13 +62,19 @@ if authentication_status:
     with st.container():
         with main_col1:
             with st.container():
-                #r = requests.get('https://finance.yahoo.com/topic/economic-news')
+                #r = requests.get('https://finance.yahoo.com/news')
                 #html = r.text
                 #mrt-node-Fin-Stream
 
                 # parse the HTML
                 #soup = BeautifulSoup(html, "html.parser")
-                
+
+                yh_news = dl_yh_news()
+                for i in range(min(10, len(yh_news))):
+                    st.subheader(f"[{yh_news.iloc[i]['title']}]" % yh_news.iloc[i]['link'])
+                    st.markdown(yh_news.iloc[i]['desc'], '\n')
+
+
                 st.write("TEST")
                     
         with main_col2:
