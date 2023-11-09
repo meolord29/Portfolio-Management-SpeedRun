@@ -78,17 +78,15 @@ if authentication_status:
                 for i in range(min(10, len(yh_news))):
                     item = yh_news.iloc[i]
                     st.write(f"**{item['title']}**")
-                    st.caption(item['desc'][:item['desc'].find(' ', 200)]+'...')
-                    st.caption('[Read more...](%s)' % item['link'])
+                    st.caption(item['desc'][:item['desc'].find(' ', 200)] + '... [Read more](%s)' % item['link'])
                     st.write('')
                     
         with main_col2:
-            st.write("Have 2 buttons - showcase stock related news, and showcase cross industry news")
 
             companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
                          "PFE", "JPM", "SBUX"]
             option = st.selectbox(
-                "Specific Stock Related News",
+                "Specific Stock Info:",
                 companies,
                 index=None,
                 placeholder="Select Stock...",
@@ -103,10 +101,11 @@ if authentication_status:
                         st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
 
                 stock_news = dl_yh_news(f'https://www.finance.yahoo.com/quote/{option}?p={option}&.tsrc=fin-srch')
-                for i in range(min(5, len(yh_news))):
-                    item = yh_news.iloc[i]
+
+                for i in range(min(5, len(stock_news))):
+                    item = stock_news.iloc[i]
                     st.write(f"**{item['title']}**")
-                    st.caption(item['desc'][:item['desc'].find(' ', 200)] + '[Read more...](%s)' % item['link'])
+                    st.caption(item['desc'][:item['desc'].find(' ', 200)] + '... [Read more](%s)' % item['link'])
                     st.write('')
         
     with st.container():
