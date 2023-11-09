@@ -132,7 +132,7 @@ else:
                     st.metric(label='Total Amount Invested', value=str(sum(sample_portfolio)))
 
                 with ESG_risk_col:
-                    st.metric(label='Weighted ESG Risk Score', value=str(weighted_esg(weights)))
+                    st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
 
             with st.container():
                 df_weights = get_weights(ef.deepcopy())
