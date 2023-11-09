@@ -1,18 +1,15 @@
 import pandas as pd
 import numpy as np
-from datetime import date, datetime, timedelta
 
 import streamlit as st
 import streamlit_authenticator as stauth
 import yaml
 from yaml.loader import SafeLoader
 
-import plotly.express as px
-
 import requests
 from bs4 import BeautifulSoup
 
-from ef_plotly import dl_stock_data, plot_stock
+from utilities import dl_stock_data, plot_stock, get_indices_now
 
 st.set_page_config(page_title="Home", page_icon="🏠", layout="wide")
 
@@ -65,6 +62,15 @@ if authentication_status:
 
     with st.container():
         with main_col1:
+            with st.container():
+
+                index_list, chg_list = get_indices_now()
+
+                col1, col2, col3 = st.columns(3)
+                col1.metric("NASDAQ Composite", str(index_list['^IXIC']), f"{chg_list['^IXIC']}%")
+                col2.metric("NYSE Composite", str(index_list['^NYA']), f"{chg_list['^NYA']}%")
+                col3.metric("S&P 500", str(index_list['^GSPC']), f"{chg_list['^GSPC']}%")
+
             with st.container():
                 # r = requests.get('https://finance.yahoo.com/news')
                 # html = r.text

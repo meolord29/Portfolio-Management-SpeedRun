@@ -10,7 +10,7 @@ import plotly.graph_objects as go
 
 from pypfopt import risk_models, expected_returns, EfficientFrontier
 import yfinance as yf
-from ef_plotly import *
+from utilities import *
 
 
 def test_ef():
@@ -24,16 +24,7 @@ def test_ef():
     return temp_ef, cov_matrix2
 
 
-def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
-    #ytd_data = dl_stock_data(indices, period='2d')
-    indices_data = dl_stock_data(indices, period='2d')
-    chg = {}
-    for i in indices_data.columns:
-        chg[i] = (round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
-    return indices_data.iloc[-1].round(2), chg
-
-
-def plot_ef_with_random(ef, n_samples=10000):
+def plot_ef_with_random(ef, n_samples=5000):
     # fig, ax = plt.subplots()
     ef_max_sharpe = ef.deepcopy()
     ef_min_vol = ef.deepcopy()
@@ -66,16 +57,6 @@ def plot_ef_with_random(ef, n_samples=10000):
     fig_ef.update_layout(legend_x=1, legend_y=0)
 
     return fig_ef
-
-
-def plot_weights(input_ef):
-    ef1 = input_ef.deepcopy()
-    ef1.max_sharpe()
-    weights = ef1.clean_weights()
-    df1 = pd.DataFrame(weights, index=['Weight'])
-    df1 = df1.T
-    df1 = df1[df1['Weight'] != 0]  # Remove 0 values
-    return px.pie(df1, values='Weight', names=df1.index, title='Optimized Stock Allocation')
 
 
 def plot_correlation(df):
@@ -115,6 +96,7 @@ else:
         ef_data = ef.deepcopy()
         ef_data.max_sharpe()
         metrics = ef_data.portfolio_performance()
+        weights = ef.clean_weights()
 
     with st.container():
 
@@ -150,11 +132,11 @@ else:
                     st.metric(label='Total Amount Invested', value=str(sum(sample_portfolio)))
 
                 with ESG_risk_col:
-                    st.metric(label='Average ESG Risk', value='69%')
+                    st.metric(label='Weighted ESG Risk Score', value=str(weighted_esg(weights)))
 
             with st.container():
-
-                fig = plot_weights(ef.deepcopy())
+                df_weights = get_weights(ef.deepcopy())
+                fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
 
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
