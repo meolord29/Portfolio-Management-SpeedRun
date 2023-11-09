@@ -40,9 +40,9 @@ def dl_stock_data(tickers, period=None, interval='1d', start="2021-01-01", end=d
 def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
     #ytd_data = dl_stock_data(indices, period='2d')
     indices_data = dl_stock_data(indices, period='2d')
-    chg = []
+    chg = {}
     for i in indices_data.columns:
-        chg.append(round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
+        chg[i] = (round((indices_data[i][-1]-indices_data[i][-2])/indices_data[i][-2]*100, 2))
     return indices_data.iloc[-1].round(2), chg
 
 
@@ -141,9 +141,9 @@ else:
             index_list, chg_list = get_indices_now()
 
             col1, col2, col3 = st.columns(3)
-            col1.metric("NASDAQ Composite", str(index_list['^IXIC']), f"{chg_list[0]}%")
-            col2.metric("NYSE Composite", str(index_list['^NYA']), f"{chg_list[1]}%")
-            col3.metric("S&P 500", str(index_list['^GSPC']), f"{chg_list[2]}%")
+            col1.metric("NASDAQ Composite", str(index_list['^IXIC']), f"{chg_list['^IXIC']}%")
+            col2.metric("NYSE Composite", str(index_list['^NYA']), f"{chg_list['^NYA']}%")
+            col3.metric("S&P 500", str(index_list['^GSPC']), f"{chg_list['^GSPC']}%")
 
         st.header(f"My Portfolio")
         plot_spot = st.empty()  # holding the spot for the graph
