@@ -47,7 +47,6 @@ def weighted_esg(weights):
     df1 = pd.DataFrame(weights, index=['Weight'])
     df1 = df1.T
     df1 = df1[df1['Weight'] != 0]  # Remove 0 values
-    print(df1)
     sum = 0
     for index, row in df1.iterrows():
         score, _ = get_esg_score(index)
