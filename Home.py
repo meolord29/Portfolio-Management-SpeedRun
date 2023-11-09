@@ -71,8 +71,9 @@ if authentication_status:
 
                 yh_news = dl_yh_news()
                 for i in range(min(10, len(yh_news))):
-                    st.subheader(f"[{yh_news.iloc[i]['title']}]" % yh_news.iloc[i]['link'])
+                    st.subheader(f"[{yh_news.iloc[i]['title']}](%s)" % yh_news.iloc[i]['link'])
                     st.markdown(yh_news.iloc[i]['desc'], '\n')
+                    #st.write('[Read more...]' % yh_news.iloc[i]['link'])
 
 
                 st.write("TEST")
