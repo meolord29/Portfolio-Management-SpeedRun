@@ -96,7 +96,7 @@ else:
         ef_data = ef.deepcopy()
         ef_data.max_sharpe()
         metrics = ef_data.portfolio_performance()
-        weights = ef.clean_weights(ef_data)
+        weights = ef_data.clean_weights()
         df_weights = get_weights(ef.deepcopy())
 
     with st.container():
