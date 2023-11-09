@@ -101,10 +101,11 @@ if authentication_status:
 
             if option:
 
-                price, chg = get_indices_now(option)
-                st.metric(option, str(index_list[option]), f"{chg_list[option]}%")
-
+                stock = dl_stock_data(option, period='2d')
                 stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
+
+                chg = round((stock[-1] - stock[-2]) / stock[-2] * 100, 2)
+                st.metric(option, str(stock_adj_close[-1]), f"{chg}%")
 
                 with st.container():
                     plot_spot = st.empty()  # holding the spot for the graph
