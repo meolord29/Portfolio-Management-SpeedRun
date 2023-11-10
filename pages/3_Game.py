@@ -59,13 +59,13 @@ def plot_portfolio(amounts):
     cols = ['Cash', 'Stocks', 'Bonds']
     df2 = pd.DataFrame(zip(cols, amounts, [1, 1, 1]), columns=['Categories', 'prop', 'st'])
 
-    fig = px.histogram(df2, x='prop', y='st', orientation='h', color='Categories', height=250, barnorm="percent",
+    fig = px.histogram(df2, x='prop', y='st', orientation='h', color='Categories', height=200, barnorm="percent",
                        text_auto=True, color_discrete_sequence=px.colors.qualitative.Set2)
     fig.update_layout(
         plot_bgcolor='rgba(0,0,0,0)',
         xaxis=dict(visible=False),
         yaxis=dict(visible=False),
-        legend=dict(orientation='h', x=0.2),
+        legend=dict(orientation='h', x=0.1),
         legend_title=None
     )
     return fig
@@ -81,6 +81,7 @@ else:
     sample_portfolio = [3000, 5000, 2000]
     companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
                  "JPM", "SBUX"]
+    current_year = 2011
 
     with st.spinner('Loading Data...'):
         ef, cov_matrix = test_ef()
@@ -94,8 +95,11 @@ else:
         stock_col1, stock_col2 = st.columns(2)
 
         with stock_col1:
+            st.metric('Year', current_year)
+            st.button('Go to Next Year', type='primary')
+
             option = st.selectbox(
-                "Stock Information:",
+                "Show Stock Information:",
                 companies,
                 index=None,
                 placeholder="Select Stock...",
