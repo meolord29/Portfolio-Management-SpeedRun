@@ -104,6 +104,9 @@ else:
                 index=None,
                 placeholder="Select Stock...",
             )
+
+            # Show Stock Charts
+
             col1, col2, col3 = st.columns(3)
 
             if option:
@@ -117,7 +120,7 @@ else:
                 with stock_col2:
                     plot_spot = st.empty()  # holding the spot for the graph
                     with plot_spot:
-                        st.plotly_chart(plot_stock(stock_adj_close, option, height=400), use_container_width=True)
+                        st.plotly_chart(plot_stock(stock_adj_close, option, height=400, hover_data='NEWS!'), use_container_width=True)
 
             st.header(f"My Portfolio")
 
