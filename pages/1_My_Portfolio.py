@@ -52,7 +52,7 @@ def plot_ef_with_random(ef, n_samples=5000):
 
 def plot_correlation(df):
     cor_df = risk_models.cov_to_corr(df)
-    return px.imshow(cor_df, title='Stocks Correlation', color_continuous_scale=['red','green'])
+    return px.imshow(cor_df, title='Stocks Correlation', color_continuous_scale=['green', 'yellow', 'red'])
 
 
 def plot_portfolio(amounts):
@@ -124,7 +124,9 @@ else:
                     st.metric(label='Total Amount Invested', value=str(sum(sample_portfolio)))
 
                 with ESG_risk_col:
-                    st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
+                    # Use this to load real data, using dummy to save scraping time
+                    # st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
+                    st.metric(label='Weighted ESG Risk Score', value='28.74')
 
             with st.container():
                 fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
@@ -157,9 +159,9 @@ else:
 
                 col1.button('1 Day')
                 if col2.button('1 Week'):
-                    stock_adj_close = dl_stock_data(option, interval='1h', period='1wk')
-                if col3.button('1 Month'):
-                    stock_adj_close = dl_stock_data(option, period='1mo')
+                    stock_adj_close = dl_stock_data(option, interval='5m', period='1wk')
+                elif col3.button('1 Month'):
+                    stock_adj_close = dl_stock_data(option, interval='1h', period='1mo')
                 else:
                     stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
 
