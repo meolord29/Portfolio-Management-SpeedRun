@@ -110,12 +110,11 @@ else:
         if option:
             col1, col2, col3 = st.columns(3)
 
-            col1.button('1 Day')
             if col2.button('1 Week'):
                 stock_adj_close = dl_stock_data(option, interval='5m', period='1wk')
-            elif col3.button('1 Month'):
+            if col3.button('1 Month'):
                 stock_adj_close = dl_stock_data(option, interval='1h', period='1mo')
-            else:
+            if col1.button('1 Day'):
                 stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
 
             # stock_adj_close = dl_stock_data(option)
