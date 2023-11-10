@@ -91,38 +91,31 @@ else:
         df_weights = get_weights(ef.deepcopy())
 
     with st.container():
+        stock_col1, stock_col2 = st.columns(2)
 
-        with st.container():
-            index_list, chg_list = get_indices_now()
-
-            col1, col2, col3 = st.columns(3)
-            col1.metric("NASDAQ Composite", str(index_list['^IXIC']), f"{chg_list['^IXIC']}%")
-            col2.metric("NYSE Composite", str(index_list['^NYA']), f"{chg_list['^NYA']}%")
-            col3.metric("S&P 500", str(index_list['^GSPC']), f"{chg_list['^GSPC']}%")
-
-        option = st.selectbox(
-            "Stock Information:",
-            companies,
-            index=None,
-            placeholder="Select Stock...",
-        )
-
-        if option:
+        with stock_col1:
+            option = st.selectbox(
+                "Stock Information:",
+                companies,
+                index=None,
+                placeholder="Select Stock...",
+            )
             col1, col2, col3 = st.columns(3)
 
-            col1.button('1 Day')
-            stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
-            if col2.button('1 Month'):
-                stock_adj_close = dl_stock_data(option, interval='1d', period='1mo')
-            if col3.button('1 Year'):
-                stock_adj_close = dl_stock_data(option, interval='1d', period='1y')
+            if option:
+                col1.button('1 Day')
+                stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
+                if col2.button('1 Month'):
+                    stock_adj_close = dl_stock_data(option, interval='1d', period='1mo')
+                if col3.button('1 Year'):
+                    stock_adj_close = dl_stock_data(option, interval='1d', period='1y')
 
-            with st.container():
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
+        with stock_col2:
+            plot_spot = st.empty()  # holding the spot for the graph
+            with plot_spot:
+                st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
 
-        st.header(f"My Portfolio")
+    st.header(f"My Portfolio")
 
     main_col1, main_col2, = st.columns(2)
 
