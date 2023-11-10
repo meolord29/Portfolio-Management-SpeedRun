@@ -95,7 +95,7 @@ else:
         stock_col1, stock_col2 = st.columns(2)
 
         with stock_col1:
-            st.metric('Year', f'**{current_year}**')
+            st.metric('Year', current_year)
             st.button('Go to Next Year', type='primary')
 
             option = st.selectbox(
