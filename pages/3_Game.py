@@ -114,10 +114,10 @@ else:
                 if col3.button('1 Year'):
                     stock_adj_close = dl_stock_data(option, interval='1d', period='1y')
 
-            with stock_col2:
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
+                with stock_col2:
+                    plot_spot = st.empty()  # holding the spot for the graph
+                    with plot_spot:
+                        st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
 
     st.header(f"My Portfolio")
 
