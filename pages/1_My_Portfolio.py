@@ -52,7 +52,7 @@ def plot_ef_with_random(ef, n_samples=5000):
 
 def plot_correlation(df):
     cor_df = risk_models.cov_to_corr(df)
-    return px.imshow(cor_df, title='Stocks Correlation')
+    return px.imshow(cor_df, title='Stocks Correlation', color_continuous_scale=['red','green'])
 
 
 def plot_portfolio(amounts):
@@ -153,7 +153,17 @@ else:
             )
 
             if option:
-                stock_adj_close = dl_stock_data(option)
+                col1, col2, col3 = st.columns(3)
+
+                col1.button('1 Day')
+                if col2.button('1 Week'):
+                    stock_adj_close = dl_stock_data(option, interval='1h', period='1wk')
+                if col3.button('1 Month'):
+                    stock_adj_close = dl_stock_data(option, period='1mo')
+                else:
+                    stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
+
+                # stock_adj_close = dl_stock_data(option)
 
                 with st.container():
                     plot_spot = st.empty()  # holding the spot for the graph
