@@ -100,15 +100,48 @@ else:
             col2.metric("NYSE Composite", str(index_list['^NYA']), f"{chg_list['^NYA']}%")
             col3.metric("S&P 500", str(index_list['^GSPC']), f"{chg_list['^GSPC']}%")
 
+        option = st.selectbox(
+            "Stock Information:",
+            companies,
+            index=None,
+            placeholder="Select Stock...",
+        )
+
+        if option:
+            col1, col2, col3 = st.columns(3)
+
+            col1.button('1 Day')
+            if col2.button('1 Week'):
+                stock_adj_close = dl_stock_data(option, interval='5m', period='1wk')
+            elif col3.button('1 Month'):
+                stock_adj_close = dl_stock_data(option, interval='1h', period='1mo')
+            else:
+                stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
+
+            # stock_adj_close = dl_stock_data(option)
+
+            with st.container():
+                plot_spot = st.empty()  # holding the spot for the graph
+                with plot_spot:
+                    st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
+
         st.header(f"My Portfolio")
-        plot_spot = st.empty()  # holding the spot for the graph
-        with plot_spot:
-            st.plotly_chart(plot_portfolio(sample_portfolio))
 
     main_col1, main_col2, = st.columns(2)
 
     with st.container():
         with main_col1:
+            with st.container():
+                fig2 = plot_correlation(cov_matrix)
+                plot_spot = st.empty()  # holding the spot for the graph
+                with plot_spot:
+                    st.plotly_chart(fig2, use_container_width=True)
+
+        with main_col2:
+            with st.container():
+                plot_spot = st.empty()  # holding the spot for the graph
+                with plot_spot:
+                    st.plotly_chart(plot_portfolio(sample_portfolio))
 
             with st.container():
                 expected_return_col, expected_risk_col, = st.columns(2)
@@ -140,34 +173,7 @@ else:
                 with plot_spot:
                     st.plotly_chart(plot_ef_with_random(ef.deepcopy()))
 
-            with st.container():
-                fig2 = plot_correlation(cov_matrix)
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(fig2, use_container_width=True)
 
-        with main_col2:
-            option = st.selectbox(
-                "Stock Information:",
-                companies,
-                index=None,
-                placeholder="Select Stock...",
-            )
 
-            if option:
-                col1, col2, col3 = st.columns(3)
 
-                col1.button('1 Day')
-                if col2.button('1 Week'):
-                    stock_adj_close = dl_stock_data(option, interval='5m', period='1wk')
-                elif col3.button('1 Month'):
-                    stock_adj_close = dl_stock_data(option, interval='1h', period='1mo')
-                else:
-                    stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
 
-                # stock_adj_close = dl_stock_data(option)
-
-                with st.container():
-                    plot_spot = st.empty()  # holding the spot for the graph
-                    with plot_spot:
-                        st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
