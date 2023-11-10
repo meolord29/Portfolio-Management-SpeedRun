@@ -138,7 +138,7 @@ else:
             with st.container():
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
-                    st.plotly_chart(plot_portfolio(sample_portfolio))
+                    st.plotly_chart(plot_portfolio(sample_portfolio), use_container_width=True)
 
             with st.container():
                 expected_return_col, expected_risk_col, = st.columns(2)
