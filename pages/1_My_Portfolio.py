@@ -112,12 +112,10 @@ else:
 
             col1.button('1 Day')
             stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
-            if col2.button('1 Week'):
-                stock_adj_close = dl_stock_data(option, interval='5m', period='1wk')
-            if col3.button('1 Month'):
-                stock_adj_close = dl_stock_data(option, interval='1h', period='1mo')
-
-            # stock_adj_close = dl_stock_data(option)
+            if col2.button('1 Month'):
+                stock_adj_close = dl_stock_data(option, interval='1d', period='1mo')
+            if col3.button('1 Year'):
+                stock_adj_close = dl_stock_data(option, interval='1d', period='1y')
 
             with st.container():
                 plot_spot = st.empty()  # holding the spot for the graph
