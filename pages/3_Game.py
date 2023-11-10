@@ -95,7 +95,7 @@ else:
         stock_col1, stock_col2 = st.columns(2)
 
         with stock_col1:
-            st.metric('Year', current_year)
+            st.metric('Year', f'**{current_year}**')
             st.button('Go to Next Year', type='primary')
 
             option = st.selectbox(
@@ -119,7 +119,7 @@ else:
                     with plot_spot:
                         st.plotly_chart(plot_stock(stock_adj_close, option, height=400), use_container_width=True)
 
-    st.header(f"My Portfolio")
+            st.header(f"My Portfolio")
 
     main_col1, main_col2, = st.columns(2)
 

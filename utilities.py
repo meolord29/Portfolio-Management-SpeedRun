@@ -65,8 +65,11 @@ def get_weights(input_ef):
     return df1
 
 
-def plot_stock(stock_data, name, height=None):
-    fig_stock = px.line(stock_data, title=f'Stock Data for {name}', height=height)
+def plot_stock(stock_data, name, height=None, hover_data=None):
+    if hover_data is not None:
+        hover_data = [hover_data]*len(stock_data)
+        fig_stock = px.line(stock_data, title=f'Stock Data for {name}', height=height,
+                            hover_name=stock_data.index, hover_data=hover_data)
     fig_stock.update_layout(showlegend=False, yaxis_title='US$')
     return fig_stock
 
