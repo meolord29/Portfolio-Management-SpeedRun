@@ -65,8 +65,8 @@ def get_weights(input_ef):
     return df1
 
 
-def plot_stock(stock_data, name):
-    fig_stock = px.line(stock_data, title=f'Stock Data for {name}')
+def plot_stock(stock_data, name, height=None):
+    fig_stock = px.line(stock_data, title=f'Stock Data for {name}', height=height)
     fig_stock.update_layout(showlegend=False, yaxis_title='US$')
     return fig_stock
 

@@ -117,7 +117,7 @@ else:
                 with stock_col2:
                     plot_spot = st.empty()  # holding the spot for the graph
                     with plot_spot:
-                        st.plotly_chart(plot_stock(stock_adj_close, option), use_container_width=True)
+                        st.plotly_chart(plot_stock(stock_adj_close, option, height=400), use_container_width=True)
 
     st.header(f"My Portfolio")
 
