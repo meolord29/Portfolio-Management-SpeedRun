@@ -113,7 +113,7 @@ else:
             if option:
 
                 with col1:
-                    graph_period = st.radio('Choose Graph Duration:', ['Month', 'Full Year'])
+                    graph_period = st.radio('Choose Graph Duration:', ['Full Year', 'Month'])
                 with col2:
                     try:
                         if graph_period == 'Month':
