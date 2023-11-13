@@ -66,9 +66,14 @@ def get_weights(input_ef):
 
 
 def plot_stock(stock_data, name, height=None, hover_data=None):
+    if stock_data.iloc[-1][0] > stock_data.iloc[0][0]:
+        line_color = 'green'
+    else:
+        line_color = 'red'
     fig_stock = px.line(stock_data, title=f'Stock Data for {name}', height=height)
     if hover_data:
-        fig_stock.update_traces(hovertemplate='<b>Price: $%{x}</b><br><br>'+hover_data)
+        fig_stock.update_traces(hovertemplate='<b>Date: %{x}</b><br><br>'+hover_data+'<extra></extra>')
+    fig_stock.update_traces(line_color=line_color)
     fig_stock.update_layout(showlegend=False, yaxis_title='US$')
     return fig_stock
 
