@@ -5,11 +5,12 @@ from pypfopt import risk_models, expected_returns, EfficientFrontier
 from utilities import *
 
 
-def test_ef():
-    companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
-                 "JPM", "SBUX"]
-    stock_data = yf.download(companies, start="2020-6-01", end=date.today())
-    stock_data = stock_data["Adj Close"]
+def test_ef(year=2011):
+    companies = ["MSFT", "AMZN", "TSLA", "AAPL", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
+                 "PFE", "JPM"]
+    # stock_data = yf.download(companies, start="2020-6-01", end=date.today())
+    # stock_data = stock_data["Adj Close"]
+    stock_data = dl_stock_data(companies, start=date(year, 1, 1), end=date(year+1, 1, 1))
     mu2 = expected_returns.mean_historical_return(stock_data)
     cov_matrix2 = risk_models.sample_cov(stock_data)
     temp_ef = EfficientFrontier(mu2, cov_matrix2)
