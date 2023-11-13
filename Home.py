@@ -98,10 +98,18 @@ if authentication_status:
                 placeholder="Select Stock...",
             )
 
-            if option:
+            col1, col2, col3 = st.columns(3)
 
-                stock = dl_stock_data(option, period='2d')
+            if option:
+                col1.button('1 Day')
                 stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
+                stock = dl_stock_data(option, period='2d')
+                if col2.button('1 Month'):
+                    stock_adj_close = dl_stock_data(option, interval='1d', period='1mo')
+                    stock = dl_stock_data(option, interval='1mo', period='2mo')
+                if col3.button('1 Year'):
+                    stock_adj_close = dl_stock_data(option, interval='1d', period='1y')
+                    stock = dl_stock_data(option, interval='1y', period='2y')
 
                 chg = round((stock[-1] - stock[-2]) / stock[-2] * 100, 2)
                 st.metric(option, 'US$' + str(round(stock[-1], 2)), f"{chg}%")

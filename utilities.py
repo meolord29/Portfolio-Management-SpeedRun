@@ -15,6 +15,8 @@ def dl_stock_data(tickers, period=None, interval='1d', start="2021-01-01", end=d
         stock_data = yf.download(tickers, period=period, interval=interval)
     else:
         stock_data = yf.download(tickers, interval=interval, start=start, end=end)
+    if stock_data.empty:
+        raise Exception('Empty Dataframe')
     if col in ['Open', 'High', 'Low', 'Close', 'Adj Close', 'Volume']:
         stock_data = stock_data[col]
     else:
