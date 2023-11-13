@@ -99,8 +99,12 @@ else:
         stock_col1, stock_col2 = st.columns(2)
 
         with stock_col1:
-            st.metric('Year', current_year)
-            if st.button('Go to Next Year', type='primary'):
+            year_col1, year_col2, year_col3 = st.columns(3)
+
+            year_col1.metric('Year', current_year)
+            if year_col2.button('Go to Previous Year', type='primary'):
+                st.session_state.year = current_year+1
+            if year_col3.button('Go to Next Year', type='primary'):
                 st.session_state.year = current_year+1
 
             option = st.selectbox(
