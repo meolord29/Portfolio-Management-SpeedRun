@@ -81,7 +81,7 @@ else:
 
     # Initialisation
     sample_portfolio = [3000, 5000, 2000]
-    companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
+    companies = ["MSFT", "AMZN", "TSLA", "AAPL", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
                  "JPM", "SBUX"]
     current_year = 2011
 
