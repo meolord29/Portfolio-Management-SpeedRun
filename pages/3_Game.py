@@ -139,7 +139,7 @@ else:
                     except Exception:
                         pass
 
-            st.header(f"My Portfolio")
+            st.header("My Portfolio")
 
     main_col1, main_col2, = st.columns(2)
 
@@ -150,6 +150,11 @@ else:
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
                     st.plotly_chart(fig2, use_container_width=True)
+
+            with st.container():
+                plot_spot = st.empty()  # holding the spot for the graph
+                with plot_spot:
+                    st.plotly_chart(plot_ef_with_random(ef.deepcopy()), use_container_width=True)
 
         with main_col2:
             with st.container():
@@ -172,8 +177,8 @@ else:
 
                 with ESG_risk_col:
                     # Use this to load real data, using dummy to save scraping time
-                    # st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
-                    st.metric(label='Weighted ESG Risk Score', value='28.74')
+                    st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
+                    # st.metric(label='Weighted ESG Risk Score', value='28.74')
 
             with st.container():
                 fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
@@ -181,8 +186,3 @@ else:
                 plot_spot = st.empty()  # holding the spot for the graph
                 with plot_spot:
                     st.plotly_chart(fig, use_container_width=True)
-
-            with st.container():
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(plot_ef_with_random(ef.deepcopy()))
