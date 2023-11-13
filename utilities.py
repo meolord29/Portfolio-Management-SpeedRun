@@ -66,7 +66,7 @@ def get_weights(input_ef):
 
 
 def plot_stock(stock_data, name, height=None, hover_data=None):
-    if stock_data.iloc[-1][0] > stock_data.iloc[0][0]:
+    if stock_data.iloc[-1] > stock_data.iloc[0]:
         line_color = 'green'
     else:
         line_color = 'red'
