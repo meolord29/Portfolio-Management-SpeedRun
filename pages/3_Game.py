@@ -177,8 +177,10 @@ else:
 
                 with ESG_risk_col:
                     # Use this to load real data, using dummy to save scraping time
-                    st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
-                    # st.metric(label='Weighted ESG Risk Score', value='28.74')
+                    try:
+                        st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
+                    except:
+                        st.metric(label='Weighted ESG Risk Score', value='NA')
 
             with st.container():
                 fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
