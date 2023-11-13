@@ -113,26 +113,23 @@ else:
             if option:
 
                 with col1:
-                    graph_period = st.radio('Choose Graph Duration:', ['Day', 'Month', 'Full Year'])
+                    graph_period = st.radio('Choose Graph Duration:', ['Month', 'Full Year'])
                 with col2:
-                    #try:
-                    if graph_period == 'Day':
-                        d = st.date_input('Select Date:', None, date(current_year, 1, 1), date(current_year, 12, 31))
-                        stock_adj_close = dl_stock_data(option, interval='1h', start=d, end=d + timedelta(days=1))
-                    elif graph_period == 'Month':
-                        m = st.slider('Select Month:', 1, 12)
-                        stock_adj_close = dl_stock_data(option, interval='1h', start=date(current_year, m, 1), end=date(current_year, m + 1, 1))
-                    elif graph_period == 'Full Year':
-                        stock_adj_close = dl_stock_data(option, start=date(current_year, 1, 1),
-                                                        end=date(current_year + 1, 1, 1))
+                    try:
+                        if graph_period == 'Month':
+                            m = st.slider('Select Month:', 1, 12)
+                            stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1), end=date(current_year, m + 1, 1))
+                        elif graph_period == 'Full Year':
+                            stock_adj_close = dl_stock_data(option, start=date(current_year, 1, 1),
+                                                            end=date(current_year + 1, 1, 1))
 
-                    with stock_col2:
-                        plot_spot = st.empty()  # holding the spot for the graph
-                        with plot_spot:
-                            st.plotly_chart(plot_stock(stock_adj_close, option, height=400, hover_data='NEWS!'),
-                                            use_container_width=True)
-                    #except Exception:
-                    #    pass
+                        with stock_col2:
+                            plot_spot = st.empty()  # holding the spot for the graph
+                            with plot_spot:
+                                st.plotly_chart(plot_stock(stock_adj_close, option, height=400, hover_data='NEWS!'),
+                                                use_container_width=True)
+                    except Exception:
+                        pass
 
             st.header(f"My Portfolio")
 
