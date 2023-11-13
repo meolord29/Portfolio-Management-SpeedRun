@@ -109,10 +109,11 @@ if authentication_status:
                     stock = dl_stock_data(option, interval='1mo', period='2mo')
                 if col3.button('1 Year'):
                     stock_adj_close = dl_stock_data(option, interval='1d', period='1y')
-                    stock = dl_stock_data(option, interval='1y', period='2y')
+                    # stock = dl_stock_data(option, interval='1y', period='2y')
 
-                chg = round((stock[-1] - stock[-2]) / stock[-2] * 100, 2)
-                st.metric(option, 'US$' + str(round(stock[-1], 2)), f"{chg}%")
+                # chg = round((stock[-1] - stock[-2]) / stock[-2] * 100, 2)
+                chg = round((stock_adj_close[-1] - stock_adj_close[0]) / stock_adj_close[0] * 100, 2)
+                st.metric(option, 'US$' + str(round(stock_adj_close[-1], 2)), f"{chg}%")
 
                 with st.container():
                     plot_spot = st.empty()  # holding the spot for the graph
