@@ -70,7 +70,7 @@ def plot_stock(stock_data, name, height=None, hover_data=None):
         line_color = 'green'
     else:
         line_color = 'red'
-    fig_stock = px.line(stock_data, title=f'Stock Data for {name}', height=height)
+    fig_stock = px.area(stock_data, title=f'Stock Data for {name}', height=height)
     if hover_data:
         fig_stock.update_traces(hovertemplate='<b>Date: %{x}</b><br><br>'+hover_data+'<extra></extra>')
     fig_stock.update_traces(line_color=line_color)
