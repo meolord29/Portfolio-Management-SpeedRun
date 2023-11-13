@@ -103,9 +103,9 @@ else:
 
             year_col1.metric('Year', current_year)
             if year_col2.button('Go to Previous Year', type='primary'):
-                st.session_state.year -= 1
+                st.session_state.year = -1
             if year_col3.button('Go to Next Year', type='primary'):
-                st.session_state.year += 1
+                st.session_state.year = +1
 
             option = st.selectbox(
                 "Show Stock Information:",
