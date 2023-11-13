@@ -117,7 +117,7 @@ else:
                 with col2:
                     try:
                         if graph_period == 'Day':
-                            d = st.date_input('Select Date:', None, date(current_year, 1, 1), date(current_year, 12, 31))
+                            d = date(st.date_input('Select Date:', None, date(current_year, 1, 1), date(current_year, 12, 31)))
                             stock_adj_close = dl_stock_data(option, interval='1m', start=d, end=d+timedelta(days=1))
                         elif graph_period == 'Month':
                             m = st.slider('Select Month:', 1, 12)
