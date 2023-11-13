@@ -103,10 +103,10 @@ if authentication_status:
             if option:
                 col1.button('1 Day')
                 stock_adj_close = dl_stock_data(option, interval='1m', period='1d')
-                stock = dl_stock_data(option, period='2d')
+                # stock = dl_stock_data(option, period='2d')
                 if col2.button('1 Month'):
                     stock_adj_close = dl_stock_data(option, interval='1d', period='1mo')
-                    stock = dl_stock_data(option, interval='1mo', period='2mo')
+                    # stock = dl_stock_data(option, interval='1mo', period='2mo')
                 if col3.button('1 Year'):
                     stock_adj_close = dl_stock_data(option, interval='1d', period='1y')
                     # stock = dl_stock_data(option, interval='1y', period='2y')
