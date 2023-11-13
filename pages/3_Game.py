@@ -118,11 +118,10 @@ else:
                     #try:
                     if graph_period == 'Day':
                         d = st.date_input('Select Date:', None, date(current_year, 1, 1), date(current_year, 12, 31))
-                        stock_adj_close = dl_stock_data(option, interval='1m', start=d, end=d + timedelta(days=1))
+                        stock_adj_close = dl_stock_data(option, interval='1h', start=d, end=d + timedelta(days=1))
                     elif graph_period == 'Month':
                         m = st.slider('Select Month:', 1, 12)
-                        stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1), end=date(current_year, m + 1, 1))
-                        st.write(date(current_year, m + 1, 1))
+                        stock_adj_close = dl_stock_data(option, interval='1h', start=date(current_year, m, 1), end=date(current_year, m + 1, 1))
                     elif graph_period == 'Full Year':
                         stock_adj_close = dl_stock_data(option, start=date(current_year, 1, 1),
                                                         end=date(current_year + 1, 1, 1))
