@@ -139,7 +139,7 @@ else:
                     except Exception:
                         pass
 
-            st.header("Portfolio Analysis for Year" + current_year)
+            st.header(f"Portfolio Analysis for Year {current_year}")
 
     main_col1, main_col2, = st.columns(2)
 
