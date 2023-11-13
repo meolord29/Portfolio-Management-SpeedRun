@@ -76,7 +76,8 @@ def plot_stock(stock_data, name, height=None, hover_data=None):
     fig_stock.update_traces(line_color=line_color)
     fig_stock.update_layout(showlegend=False, yaxis_title='US$')
     fig_stock.update_xaxes(showspikes=True, spikecolor="green", spikesnap="cursor", spikemode="across")
-    fig_stock.update_yaxes(showspikes=True, spikecolor="orange")
+    fig_stock.update_yaxes(showspikes=True, spikecolor="orange", spikethickness=2)
+    fig_stock.update_layout(spikedistance=1000, hoverdistance=100)
     return fig_stock
 
 
