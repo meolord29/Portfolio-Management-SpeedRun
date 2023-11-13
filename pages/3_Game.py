@@ -88,7 +88,7 @@ else:
     current_year = st.session_state.year
 
     with st.spinner('Loading Data...'):
-        ef, cov_matrix = test_ef()
+        ef, cov_matrix = test_ef(current_year)
         ef_data = ef.deepcopy()
         ef_data.max_sharpe()
         metrics = ef_data.portfolio_performance()
@@ -139,7 +139,7 @@ else:
                     except Exception:
                         pass
 
-            st.header("My Portfolio")
+            st.header("Portfolio Analysis for Year" + current_year)
 
     main_col1, main_col2, = st.columns(2)
 
