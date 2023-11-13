@@ -10,7 +10,7 @@ def test_ef(year=2011):
                  "PFE", "JPM"]
     # stock_data = yf.download(companies, start="2020-6-01", end=date.today())
     # stock_data = stock_data["Adj Close"]
-    stock_data = dl_stock_data(companies, start=date(year, 1, 1), end=date(year+1, 1, 1))
+    stock_data = dl_stock_data(companies, start=date(year, 1, 1), end=date(year + 1, 1, 1))
     mu2 = expected_returns.mean_historical_return(stock_data)
     cov_matrix2 = risk_models.sample_cov(stock_data)
     temp_ef = EfficientFrontier(mu2, cov_matrix2)
@@ -103,9 +103,9 @@ else:
 
             year_col1.metric('Year', current_year)
             if year_col2.button('Go to Previous Year', type='primary'):
-                st.session_state.year = -1
+                st.session_state.year = current_year-1
             if year_col3.button('Go to Next Year', type='primary'):
-                st.session_state.year = +1
+                st.session_state.year = current_year+1
 
             option = st.selectbox(
                 "Show Stock Information:",
@@ -126,7 +126,8 @@ else:
                     try:
                         if graph_period == 'Month':
                             m = st.slider('Select Month:', 1, 12)
-                            stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1), end=date(current_year, m + 1, 1))
+                            stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1),
+                                                            end=date(current_year, m + 1, 1))
                         elif graph_period == 'Full Year':
                             stock_adj_close = dl_stock_data(option, start=date(current_year, 1, 1),
                                                             end=date(current_year + 1, 1, 1))
