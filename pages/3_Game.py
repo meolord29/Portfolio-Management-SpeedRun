@@ -6,7 +6,7 @@ from utilities import *
 
 
 def test_ef(year=2011):
-    companies = ["MSFT", "AMZN", "TSLA", "AAPL", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
+    companies = ["MSFT", "AMZN", "TSLA", "AAPL", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
                  "PFE", "JPM"]
     # stock_data = yf.download(companies, start="2020-6-01", end=date.today())
     # stock_data = stock_data["Adj Close"]
