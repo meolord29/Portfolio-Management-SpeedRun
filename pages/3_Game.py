@@ -83,7 +83,8 @@ else:
     sample_portfolio = [3000, 5000, 2000]
     companies = ["MSFT", "AMZN", "TSLA", "AAPL", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
                  "JPM", "SBUX"]
-    current_year = 2011
+    st.session_state['year'] = 2011
+    current_year = st.session_state['year']
 
     with st.spinner('Loading Data...'):
         ef, cov_matrix = test_ef()
@@ -98,7 +99,8 @@ else:
 
         with stock_col1:
             st.metric('Year', current_year)
-            st.button('Go to Next Year', type='primary')
+            if st.button('Go to Next Year', type='primary'):
+                st.session_state['year']=+1
 
             option = st.selectbox(
                 "Show Stock Information:",
