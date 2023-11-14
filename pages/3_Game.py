@@ -73,122 +73,122 @@ def plot_portfolio(amounts):
     return fig
 
 
-if not st.session_state.authentication_status or 'authentication_status' not in st.session_state:
-    st.info('Please Login from the Home page and try again.')
-    st.stop()
+if 'authentication_status' in st.session_state:
+    if st.session_state.authentication_status:
+
+        # Initialisation
+        sample_portfolio = [3000, 5000, 2000]
+        companies = ["MSFT", "AMZN", "TSLA", "AAPL", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
+                     "JPM", "SBUX"]
+        if 'year' not in st.session_state:
+            st.session_state.year = 2011
+        current_year = st.session_state.year
+
+        with st.spinner('Loading Data...'):
+            ef, cov_matrix = test_ef(current_year)
+            ef_data = ef.deepcopy()
+            ef_data.max_sharpe()
+            metrics = ef_data.portfolio_performance()
+            weights = ef_data.clean_weights()
+            df_weights = get_weights(ef.deepcopy())
+
+        with st.container():
+            stock_col1, stock_col2 = st.columns(2)
+
+            with stock_col1:
+                year_col1, year_col2, year_col3 = st.columns(3)
+
+                year_col1.metric('Year', current_year)
+                if year_col2.button('Go to Previous Year', type='primary'):
+                    st.session_state.year = current_year-1
+                    st.rerun()
+                if year_col3.button('Go to Next Year', type='primary'):
+                    st.session_state.year = current_year+1
+                    st.rerun()
+
+                option = st.selectbox(
+                    "Show Stock Information:",
+                    companies,
+                    index=None,
+                    placeholder="Select Stock...",
+                )
+
+                # Show Stock Charts
+
+                col1, col2 = st.columns(2)
+
+                if option:
+
+                    with col1:
+                        graph_period = st.radio('Choose Graph Duration:', ['Full Year', 'Month'])
+                    with col2:
+                        try:
+                            if graph_period == 'Month':
+                                m = st.slider('Select Month:', 1, 12)
+                                stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1),
+                                                                end=date(current_year, m + 1, 1))
+                            elif graph_period == 'Full Year':
+                                stock_adj_close = dl_stock_data(option, start=date(current_year, 1, 1),
+                                                                end=date(current_year + 1, 1, 1))
+
+                            with stock_col2:
+                                plot_spot = st.empty()  # holding the spot for the graph
+                                with plot_spot:
+                                    st.plotly_chart(plot_stock(stock_adj_close, option, height=400, hover_data='NEWS!'),
+                                                    use_container_width=True)
+                        except Exception:
+                            pass
+
+                st.header(f"Portfolio Analysis for Year {current_year}")
+
+        main_col1, main_col2, = st.columns(2)
+
+        with st.container():
+            with main_col1:
+                with st.container():
+                    fig2 = plot_correlation(cov_matrix)
+                    plot_spot = st.empty()  # holding the spot for the graph
+                    with plot_spot:
+                        st.plotly_chart(fig2, use_container_width=True)
+
+                with st.container():
+                    plot_spot = st.empty()  # holding the spot for the graph
+                    with plot_spot:
+                        st.plotly_chart(plot_ef_with_random(ef.deepcopy()), use_container_width=True)
+
+            with main_col2:
+                with st.container():
+                    plot_spot = st.empty()  # holding the spot for the graph
+                    with plot_spot:
+                        st.plotly_chart(plot_portfolio(sample_portfolio), use_container_width=True)
+
+                with st.container():
+                    expected_return_col, expected_risk_col, = st.columns(2)
+                    with expected_return_col:
+                        st.metric(label="Expected Annual Return", value=f"{round(metrics[0] * 100, 2)}%")
+
+                    with expected_risk_col:
+                        st.metric(label='Annual Volatility', value=f"{round(metrics[1] * 100, 2)}%")
+
+                with st.container():
+                    total_invested_col, ESG_risk_col, = st.columns(2)
+                    with total_invested_col:
+                        st.metric(label='Total Amount Invested', value=str(sum(sample_portfolio)))
+
+                    with ESG_risk_col:
+                        # Use this to load real data, using dummy to save scraping time
+                        try:
+                            st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
+                        except:
+                            st.metric(label='Weighted ESG Risk Score', value='NA')
+
+                with st.container():
+                    fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
+
+                    plot_spot = st.empty()  # holding the spot for the graph
+                    with plot_spot:
+                        st.plotly_chart(fig, use_container_width=True)
 
 else:
-
-    # Initialisation
-    sample_portfolio = [3000, 5000, 2000]
-    companies = ["MSFT", "AMZN", "TSLA", "AAPL", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
-                 "JPM", "SBUX"]
-    if 'year' not in st.session_state:
-        st.session_state.year = 2011
-    current_year = st.session_state.year
-
-    with st.spinner('Loading Data...'):
-        ef, cov_matrix = test_ef(current_year)
-        ef_data = ef.deepcopy()
-        ef_data.max_sharpe()
-        metrics = ef_data.portfolio_performance()
-        weights = ef_data.clean_weights()
-        df_weights = get_weights(ef.deepcopy())
-
-    with st.container():
-        stock_col1, stock_col2 = st.columns(2)
-
-        with stock_col1:
-            year_col1, year_col2, year_col3 = st.columns(3)
-
-            year_col1.metric('Year', current_year)
-            if year_col2.button('Go to Previous Year', type='primary'):
-                st.session_state.year = current_year-1
-                st.rerun()
-            if year_col3.button('Go to Next Year', type='primary'):
-                st.session_state.year = current_year+1
-                st.rerun()
-
-            option = st.selectbox(
-                "Show Stock Information:",
-                companies,
-                index=None,
-                placeholder="Select Stock...",
-            )
-
-            # Show Stock Charts
-
-            col1, col2 = st.columns(2)
-
-            if option:
-
-                with col1:
-                    graph_period = st.radio('Choose Graph Duration:', ['Full Year', 'Month'])
-                with col2:
-                    try:
-                        if graph_period == 'Month':
-                            m = st.slider('Select Month:', 1, 12)
-                            stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1),
-                                                            end=date(current_year, m + 1, 1))
-                        elif graph_period == 'Full Year':
-                            stock_adj_close = dl_stock_data(option, start=date(current_year, 1, 1),
-                                                            end=date(current_year + 1, 1, 1))
-
-                        with stock_col2:
-                            plot_spot = st.empty()  # holding the spot for the graph
-                            with plot_spot:
-                                st.plotly_chart(plot_stock(stock_adj_close, option, height=400, hover_data='NEWS!'),
-                                                use_container_width=True)
-                    except Exception:
-                        pass
-
-            st.header(f"Portfolio Analysis for Year {current_year}")
-
-    main_col1, main_col2, = st.columns(2)
-
-    with st.container():
-        with main_col1:
-            with st.container():
-                fig2 = plot_correlation(cov_matrix)
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(fig2, use_container_width=True)
-
-            with st.container():
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(plot_ef_with_random(ef.deepcopy()), use_container_width=True)
-
-        with main_col2:
-            with st.container():
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(plot_portfolio(sample_portfolio), use_container_width=True)
-
-            with st.container():
-                expected_return_col, expected_risk_col, = st.columns(2)
-                with expected_return_col:
-                    st.metric(label="Expected Annual Return", value=f"{round(metrics[0] * 100, 2)}%")
-
-                with expected_risk_col:
-                    st.metric(label='Annual Volatility', value=f"{round(metrics[1] * 100, 2)}%")
-
-            with st.container():
-                total_invested_col, ESG_risk_col, = st.columns(2)
-                with total_invested_col:
-                    st.metric(label='Total Amount Invested', value=str(sum(sample_portfolio)))
-
-                with ESG_risk_col:
-                    # Use this to load real data, using dummy to save scraping time
-                    try:
-                        st.metric(label='Weighted ESG Risk Score', value=str(round(weighted_esg(weights), 2)))
-                    except:
-                        st.metric(label='Weighted ESG Risk Score', value='NA')
-
-            with st.container():
-                fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
-
-                plot_spot = st.empty()  # holding the spot for the graph
-                with plot_spot:
-                    st.plotly_chart(fig, use_container_width=True)
-
+    st.info('Please Login from the Home page and try again.')
+    st.stop()
