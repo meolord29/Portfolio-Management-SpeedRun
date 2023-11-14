@@ -104,8 +104,10 @@ else:
             year_col1.metric('Year', current_year)
             if year_col2.button('Go to Previous Year', type='primary'):
                 st.session_state.year = current_year-1
+                st.rerun()
             if year_col3.button('Go to Next Year', type='primary'):
                 st.session_state.year = current_year+1
+                st.rerun()
 
             option = st.selectbox(
                 "Show Stock Information:",
@@ -190,4 +192,3 @@ else:
                 with plot_spot:
                     st.plotly_chart(fig, use_container_width=True)
 
-    st.experimental_rerun()
