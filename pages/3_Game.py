@@ -99,11 +99,11 @@ if 'authentication_status' in st.session_state:
                 year_col1, year_col2, year_col3 = st.columns(3)
 
                 year_col1.metric('Year', current_year)
-                if year_col2.button('Go to Previous Year', type='primary'):
-                    st.session_state.year = current_year-1
+                if year_col2.button('Go to Previous Year', type='primary', disabled=current_year <= 2010):
+                    st.session_state.year = current_year - 1
                     st.rerun()
-                if year_col3.button('Go to Next Year', type='primary'):
-                    st.session_state.year = current_year+1
+                if year_col3.button('Go to Next Year', type='primary', disabled=current_year >=2022):
+                    st.session_state.year = current_year + 1
                     st.rerun()
 
                 option = st.selectbox(
@@ -183,7 +183,8 @@ if 'authentication_status' in st.session_state:
                             st.metric(label='Weighted ESG Risk Score', value='NA')
 
                 with st.container():
-                    fig = px.pie(df_weights, values='Weight', names=df_weights.index, title='Optimized Stock Allocation')
+                    fig = px.pie(df_weights, values='Weight', names=df_weights.index,
+                                 title='Optimized Stock Allocation')
 
                     plot_spot = st.empty()  # holding the spot for the graph
                     with plot_spot:
