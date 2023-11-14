@@ -102,7 +102,7 @@ if 'authentication_status' in st.session_state:
                 if year_col2.button('Go to Previous Year', type='primary', disabled=current_year <= 2010):
                     st.session_state.year = current_year - 1
                     st.rerun()
-                if year_col3.button('Go to Next Year', type='primary', disabled=current_year >=2022):
+                if year_col3.button('Go to Next Year', type='primary', disabled=current_year >= 2022):
                     st.session_state.year = current_year + 1
                     st.rerun()
 
@@ -125,8 +125,12 @@ if 'authentication_status' in st.session_state:
                         try:
                             if graph_period == 'Month':
                                 m = st.slider('Select Month:', 1, 12)
-                                stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1),
-                                                                end=date(current_year, m + 1, 1))
+                                if m != 12:
+                                    stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1),
+                                                                    end=date(current_year, m + 1, 1))
+                                else:
+                                    stock_adj_close = dl_stock_data(option, start=date(current_year, m, 1),
+                                                                    end=date(current_year+1, 1, 1))
                             elif graph_period == 'Full Year':
                                 stock_adj_close = dl_stock_data(option, start=date(current_year, 1, 1),
                                                                 end=date(current_year + 1, 1, 1))
