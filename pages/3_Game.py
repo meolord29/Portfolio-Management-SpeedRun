@@ -71,11 +71,11 @@ def plot_portfolio(amounts):
     return fig
 
 
-if 'authentication_status' not in st.session_state or not st.session_state.authencation.status:
+if 'authentication_status' not in st.session_state:
     st.info('Please Login from the Home page and try again.')
     st.close()
-else:
-#if st.session_state.authentication_status:
+
+if st.session_state.authentication_status:
 
     # Initialisation
     sample_portfolio = [3000, 5000, 2000]
@@ -195,5 +195,3 @@ else:
                 with plot_spot:
                     st.plotly_chart(fig, use_container_width=True)
 
-#else:
-#    st.info('Please Login from the Home page and try again.')
