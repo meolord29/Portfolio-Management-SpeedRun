@@ -11,7 +11,7 @@ if 'authentication_status' not in st.session_state:
     
 if st.session_state.authentication_status:
     pf_df = pd.read_csv('database/datasets/portfolio.csv')
-    if st.session_state.name in pf_df.index:
-        st.write(pf_df[st.session_state.name])
+    if st.session_state.username in pf_df.index:
+        st.write(pf_df[st.session_state.username])
     else:
         st.write('not found')

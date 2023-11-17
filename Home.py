@@ -50,7 +50,7 @@ def st_authenticator():
 authenticator = st_authenticator()
 name, authentication_status, username = authenticator.login("Login", "main")
 st.session_state.authentication_status = authentication_status
-st.session_state.name = name
+st.session_state.username = username
 
 
 if st.session_state.authentication_status:
