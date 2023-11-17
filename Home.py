@@ -89,8 +89,8 @@ if authentication_status:
 
         with main_col2:
 
-            companies = ["MSFT", "AMZN", "META", "BABA", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
-                         "PFE", "JPM", "SBUX"]
+            companies = ['AAPL', 'NVDA', 'BRK.B', 'JPM', 'LLY', 'ABT', 'CVX', 'SO', 'TMUS', 'VZ', 'NEE', 'SRE', 'ABNB',
+                        'HLT', 'RS', 'LEU', 'UPS', 'FDX', 'NXST', 'CHTR', 'NVO', 'PFE', 'BLDR', 'PDD']
             option = st.selectbox(
                 "Specific Stock Info:",
                 companies,

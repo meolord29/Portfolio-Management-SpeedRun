@@ -5,9 +5,7 @@ from pypfopt import risk_models, expected_returns, EfficientFrontier
 from utilities import *
 
 
-def test_ef(year=2011):
-    companies = ["MSFT", "AMZN", "TSLA", "AAPL", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA",
-                 "PFE", "JPM"]
+def test_ef(companies, year=2011):
     # stock_data = yf.download(companies, start="2020-6-01", end=date.today())
     # stock_data = stock_data["Adj Close"]
     stock_data = dl_stock_data(companies, start=date(year, 1, 1), end=date(year + 1, 1, 1))
@@ -78,14 +76,14 @@ if 'authentication_status' in st.session_state:
 
         # Initialisation
         sample_portfolio = [3000, 5000, 2000]
-        companies = ["MSFT", "AMZN", "TSLA", "AAPL", "GE", "GOOG", "AMD", "WMT", "BAC", "GM", "T", "UAA", "MA", "PFE",
-                     "JPM", "SBUX"]
+        company_list = ['AAPL', 'NVDA', 'BRK.B', 'JPM', 'LLY', 'ABT', 'CVX', 'SO', 'TMUS', 'VZ', 'NEE', 'SRE', 'ABNB',
+                        'HLT', 'RS', 'LEU', 'UPS', 'FDX', 'NXST', 'CHTR', 'NVO', 'PFE', 'BLDR', 'PDD']
         if 'year' not in st.session_state:
             st.session_state.year = 2011
         current_year = st.session_state.year
 
         with st.spinner('Loading Data...'):
-            ef, cov_matrix = test_ef(current_year)
+            ef, cov_matrix = test_ef(company_list, current_year)
             ef_data = ef.deepcopy()
             ef_data.max_sharpe()
             metrics = ef_data.portfolio_performance()
@@ -108,7 +106,7 @@ if 'authentication_status' in st.session_state:
 
                 option = st.selectbox(
                     "Show Stock Information:",
-                    companies,
+                    company_list,
                     index=None,
                     placeholder="Select Stock...",
                 )
