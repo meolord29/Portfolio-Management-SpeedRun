@@ -76,7 +76,7 @@ if 'authentication_status' in st.session_state:
 
         # Initialisation
         sample_portfolio = [3000, 5000, 2000]
-        company_list = ['AAPL', 'NVDA', 'BRK.B', 'JPM', 'LLY', 'ABT', 'CVX', 'SO', 'TMUS', 'VZ', 'NEE', 'SRE', 'ABNB',
+        company_list = ['AAPL', 'NVDA', 'BRK-B', 'JPM', 'LLY', 'ABT', 'CVX', 'SO', 'TMUS', 'VZ', 'NEE', 'SRE', 'ABNB',
                         'HLT', 'RS', 'LEU', 'UPS', 'FDX', 'NXST', 'CHTR', 'NVO', 'PFE', 'BLDR', 'PDD']
         if 'year' not in st.session_state:
             st.session_state.year = 2011
