@@ -11,6 +11,10 @@ if 'authentication_status' not in st.session_state:
 
 if st.session_state.authentication_status:
     pf_df = pd.read_csv('database/datasets/portfolio.csv', index_col=0)
+    if st.session_state.username not in pf_df.index:
+        st.info('User Portfolio Not fFound')
+        st.stop()
+
     pf_amt = list(pf_df.loc[st.session_state.username])
 
     main_col1, main_col2 = st.columns(2)
@@ -27,7 +31,3 @@ if st.session_state.authentication_status:
             pf_amt[i] = col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
                                           key=pf_df.columns[i], label_visibility='collapsed')
 
-    if st.session_state.username in pf_df.index:
-        st.plotly_chart(px.pie(pf_df.T.loc[(pf_df.T != 0).any(1)], values=st.session_state.username, hole=0.4))
-    else:
-        st.write('not found')
