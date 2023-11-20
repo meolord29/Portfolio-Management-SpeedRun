@@ -22,7 +22,7 @@ if st.session_state.authentication_status:
         df3 = pf_df.T.loc[(pf_df != 0).any()]
         st.plotly_chart(px.pie(df3, values=st.session_state.username, names=df3.index, hole=0.4,
                                title='Your Current Stock Allocation'), use_container_width=True)
-        st.write(pf_amt)
+
 
     with main_col2:
         if st.button("Update Allocation", type='primary'):
@@ -36,3 +36,5 @@ if st.session_state.authentication_status:
             col1.write(pf_df.columns[i])
             pf_amt[i] = col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
                                           key=pf_df.columns[i], label_visibility='collapsed')
+
+    main_col1.write(pf_amt)
