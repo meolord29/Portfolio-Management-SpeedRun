@@ -26,6 +26,7 @@ if st.session_state.authentication_status:
 
     with main_col2:
         if st.button("Update Allocation", type='primary'):
+            st.write(sum(pf_amt))
             if sum(pf_amt) == 1:
                 pf_df.loc[st.session_state.username] = pf_amt
             else:
