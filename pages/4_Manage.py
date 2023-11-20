@@ -12,17 +12,16 @@ if 'authentication_status' not in st.session_state:
 if st.session_state.authentication_status:
     pf_df = pd.read_csv('database/datasets/portfolio.csv', index_col=0)
     if st.session_state.username not in pf_df.index:
-        st.info('User Portfolio Not fFound')
+        st.info('User Portfolio Not Found')
         st.stop()
 
-    pf_amt = list(pf_df.loc[st.session_state.username])
-
-    #if 'pf' not in st.session_state:
-    #    st.session_state.pf = pf_amt
+    if 'pf' not in st.session_state:
+        st.session_state.pf_df = pf_df
+        pf_amt = list(st.session_state.pf_df.loc[st.session_state.username])
 
     main_col1, main_col2 = st.columns(2)
     with main_col1:
-        df3 = pf_df.T.loc[(pf_df != 0).any()]
+        df3 = st.session_state.pf_df.T.loc[(st.session_state.pf_df != 0).any()]
         st.plotly_chart(px.pie(df3, values=st.session_state.username, names=df3.index, hole=0.4,
                                title='Your Current Stock Allocation'), use_container_width=True)
 
@@ -30,10 +29,11 @@ if st.session_state.authentication_status:
         if st.button("Update Allocation", type='primary'):
             if sum(pf_amt) == 1:
                 st.info('Allocation Updated.')
-                pf_df.loc[st.session_state.username] = pf_amt
-                pf_df.to_csv('database/datasets/portfolio.csv')
+                st.session_state.pf_df.loc[st.session_state.username] = pf_amt
+                # pf_df.to_csv('database/datasets/portfolio.csv')
             else:
                 st.info('Stocks allocation does not add up to 100%. Please retry.')
+                pf_amt = list(st.session_state.pf_df.loc[st.session_state.username])
             st.rerun()
 
         for i, num in enumerate(pf_df.loc[st.session_state.username]):
