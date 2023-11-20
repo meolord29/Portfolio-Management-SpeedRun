@@ -17,7 +17,7 @@ if st.session_state.authentication_status:
 
     if 'pf_df' not in st.session_state:
         st.session_state.pf_df = pf_df
-        pf_amt = list(st.session_state.pf_df.loc[st.session_state.username])
+        st.session_state.pf_amt = list(st.session_state.pf_df.loc[st.session_state.username])
 
     main_col1, main_col2 = st.columns(2)
     with main_col1:
@@ -27,9 +27,9 @@ if st.session_state.authentication_status:
 
     with main_col2:
         if st.button("Update Allocation", type='primary'):
-            if sum(pf_amt) == 1:
+            if sum(st.session_state.pf_amt) == 1:
                 st.write('Allocation Updated.')
-                st.session_state.pf_df.loc[st.session_state.username] = pf_amt
+                st.session_state.pf_df.loc[st.session_state.username] = st.session_state.pf_amt
                 # pf_df.to_csv('database/datasets/portfolio.csv')
             else:
                 st.write('Stocks allocation does not add up to 100%. Please retry.')
@@ -39,7 +39,7 @@ if st.session_state.authentication_status:
         for i, num in enumerate(st.session_state.pf_df.loc[st.session_state.username]):
             col1, col2 = st.columns(2)
             col1.write(pf_df.columns[i])
-            pf_amt[i] = round(col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
-                                                key=pf_df.columns[i], label_visibility='collapsed'), 2)
+            st.session_state.pf_amt[i] = round(col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
+                                                                 key=pf_df.columns[i], label_visibility='collapsed'), 2)
 
     main_col1.write(pf_amt)
