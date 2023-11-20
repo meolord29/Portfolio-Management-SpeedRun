@@ -17,25 +17,28 @@ if st.session_state.authentication_status:
 
     pf_amt = list(pf_df.loc[st.session_state.username])
 
+    #if 'pf' not in st.session_state:
+    #    st.session_state.pf = pf_amt
+
     main_col1, main_col2 = st.columns(2)
     with main_col1:
         df3 = pf_df.T.loc[(pf_df != 0).any()]
         st.plotly_chart(px.pie(df3, values=st.session_state.username, names=df3.index, hole=0.4,
                                title='Your Current Stock Allocation'), use_container_width=True)
 
-
     with main_col2:
         if st.button("Update Allocation", type='primary'):
-            st.write(sum(pf_amt))
             if sum(pf_amt) == 1:
+                st.info('Allocation Updated.')
                 pf_df.loc[st.session_state.username] = pf_amt
+                pf_df.to_csv('database/datasets/portfolio.csv')
             else:
                 st.info('Stocks allocation does not add up to 100%. Please retry.')
 
         for i, num in enumerate(pf_df.loc[st.session_state.username]):
             col1, col2 = st.columns(2)
             col1.write(pf_df.columns[i])
-            pf_amt[i] = col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
-                                          key=pf_df.columns[i], label_visibility='collapsed')
+            pf_amt[i] = round(col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
+                                                key=pf_df.columns[i], label_visibility='collapsed'), 2)
 
     main_col1.write(pf_amt)
