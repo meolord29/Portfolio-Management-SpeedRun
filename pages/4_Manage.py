@@ -34,6 +34,7 @@ if st.session_state.authentication_status:
                 pf_df.to_csv('database/datasets/portfolio.csv')
             else:
                 st.info('Stocks allocation does not add up to 100%. Please retry.')
+            st.rerun()
 
         for i, num in enumerate(pf_df.loc[st.session_state.username]):
             col1, col2 = st.columns(2)
