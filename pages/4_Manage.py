@@ -16,8 +16,8 @@ if st.session_state.authentication_status:
         for col in pf_df.columns:
             st.write(col)
     with col2:
-        for num in pf_df.loc[st.session_state.username]:
-            temp = st.number_input('', 0.0, 1.0, float(num), 0.05, key=str(num), label_visibility='collapsed')
+        for i, num in enumerate(pf_df.loc[st.session_state.username]):
+            temp = st.number_input('', 0.0, 1.0, float(num), 0.05, key=pf_df.columns[i], label_visibility='collapsed')
 
     if st.session_state.username in pf_df.index:
         st.write(pf_df.loc[st.session_state.username])
