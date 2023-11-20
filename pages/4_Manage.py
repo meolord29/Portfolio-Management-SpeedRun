@@ -15,7 +15,7 @@ if st.session_state.authentication_status:
         st.info('User Portfolio Not Found')
         st.stop()
 
-    if 'pf' not in st.session_state:
+    if 'pf_df' not in st.session_state:
         st.session_state.pf_df = pf_df
         pf_amt = list(st.session_state.pf_df.loc[st.session_state.username])
 
@@ -36,7 +36,7 @@ if st.session_state.authentication_status:
                 pf_amt = list(st.session_state.pf_df.loc[st.session_state.username])
             st.rerun()
 
-        for i, num in enumerate(pf_df.loc[st.session_state.username]):
+        for i, num in enumerate(st.session_state.pf_df.loc[st.session_state.username]):
             col1, col2 = st.columns(2)
             col1.write(pf_df.columns[i])
             pf_amt[i] = round(col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
