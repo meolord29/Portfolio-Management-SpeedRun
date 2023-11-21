@@ -26,7 +26,7 @@ if st.session_state.authentication_status:
                                title='Your Current Stock Allocation'), use_container_width=True)
 
     with main_col2:
-        if st.button("Update Allocation", type='primary'):
+        if st.button("Update Allocation", type='primary', disabled=sum(st.session_state.pf_amt) != 1):
             if sum(st.session_state.pf_amt) == 1:
                 st.write('Allocation Updated.')
                 st.session_state.pf_df.loc[st.session_state.username] = st.session_state.pf_amt
