@@ -27,10 +27,10 @@ if st.session_state.authentication_status:
 
     with main_col2:
         if st.button("Update Allocation", type='primary'):
-            # st.rerun()
             if sum(st.session_state.pf_amt) == 1:
                 st.write('Allocation Updated.')
                 st.session_state.pf_df.loc[st.session_state.username] = st.session_state.pf_amt
+                st.rerun()
                 # pf_df.to_csv('database/datasets/portfolio.csv')
             else:
                 st.write('Stocks allocation does not add up to 100%. Please retry.')
