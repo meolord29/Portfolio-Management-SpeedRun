@@ -40,7 +40,6 @@ if st.session_state.authentication_status:
             col1, col2 = st.columns(2)
             col1.write(pf_df.columns[i])
             st.session_state.pf_amt[i] = round(col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
-                                                                 key=pf_df.columns[i], label_visibility='collapsed',
-                                                                 on_change=st.rerun()), 2)
+                                                                 key=pf_df.columns[i], label_visibility='collapsed',), 2)
 
     main_col1.write(st.session_state.pf_amt)
