@@ -100,7 +100,7 @@ if st.session_state.authentication_status:
             year_col1, year_col2, year_col3 = st.columns(3)
 
             year_col1.metric('Year', current_year)
-            if year_col2.button('Go to Previous Year', type='primary', disabled=current_year <= 2010):
+            if year_col2.button('Go to Previous Year', type='primary', disabled=current_year <= 2020):
                 st.session_state.year = current_year - 1
                 st.rerun()
             if year_col3.button('Go to Next Year', type='primary', disabled=current_year >= 2022):

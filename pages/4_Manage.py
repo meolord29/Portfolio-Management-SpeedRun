@@ -30,9 +30,8 @@ if st.session_state.authentication_status:
             if sum(st.session_state.pf_amt) == 1:
                 st.session_state.pf_df.loc[st.session_state.username] = st.session_state.pf_amt
                 st.rerun()
-                # pf_df.to_csv('database/datasets/portfolio.csv')
             else:
-                st.write('Stocks allocation does not add up to 100%. Please retry.')
+                st.info('Stocks allocation does not add up to 100%. Please retry.')
                 pf_amt = list(st.session_state.pf_df.loc[st.session_state.username])
 
         for i, num in enumerate(st.session_state.pf_df.loc[st.session_state.username]):
@@ -40,5 +39,3 @@ if st.session_state.authentication_status:
             col1.write(pf_df.columns[i])
             st.session_state.pf_amt[i] = round(col2.number_input(pf_df.columns[i], 0.0, 1.0, float(num), 0.05,
                                                                  key=pf_df.columns[i], label_visibility='collapsed'), 2)
-
-    main_col1.write(st.session_state.pf_amt)
