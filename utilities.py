@@ -68,6 +68,16 @@ def get_weights(input_ef):
 
 
 def plot_stock(stock_data, name, height=None, hover_data=None):
+    """
+    Plot line charts from specific stock data.
+
+    :param stock_data: in Pandas Dataframe
+    :param name: Stock Ticker Name
+    :param height: Chart Height
+    :param hover_data: Tooltip when hovering on specific point of chart
+    :return: Plotly Line Chart
+    """
+
     if stock_data.iloc[-1] > stock_data.iloc[0]:
         line_color = 'green'
     else:
