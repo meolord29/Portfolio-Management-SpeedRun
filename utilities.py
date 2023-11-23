@@ -34,6 +34,11 @@ def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
 
 
 def get_esg_score(ticker):
+    """
+    Scrape ESG risk score of specific ticker from Yahoo Finance
+    :param ticker: Ticker on Yahoo Finance
+    :return: ESH Risk Score, Level of Risk
+    """
     link = f'https://www.finance.yahoo.com/quote/{ticker}/sustainability?p={ticker}'
     headers = {
         'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
@@ -47,6 +52,11 @@ def get_esg_score(ticker):
 
 
 def weighted_esg(weights):
+    """
+    Get weighted ESG risk score according to stock weights
+    :param weights: DataFrame of Weights
+    :return: Weighted ESG Risk Score
+    """
     df1 = pd.DataFrame(weights, index=['Weight'])
     df1 = df1.T
     df1 = df1[df1['Weight'] != 0]  # Remove 0 values
@@ -58,6 +68,11 @@ def weighted_esg(weights):
 
 
 def get_weights(input_ef):
+    """
+    Get weights of stocks from optimised Efficient Frontier
+    :param input_ef: Efficient Frontier
+    :return: DataFrame
+    """
     ef1 = input_ef.deepcopy()
     ef1.max_sharpe()
     weights = ef1.clean_weights()
