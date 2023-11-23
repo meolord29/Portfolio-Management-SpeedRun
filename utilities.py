@@ -11,6 +11,17 @@ from bs4 import BeautifulSoup
 
 
 def dl_stock_data(tickers, period=None, interval='1d', start="2021-01-01", end=date.today(), col='Adj Close'):
+    """
+    Scrape stock(s) data from Yahoo Finance
+
+    :param tickers: Stocks in Yahoo Finance format
+    :param period:
+    :param interval:
+    :param start: Start Date
+    :param end: End Date
+    :param col: Data Column(s)
+    :return: Stock Data DataFrame
+    """
     if period:
         stock_data = yf.download(tickers, period=period, interval=interval)
     else:
@@ -25,6 +36,12 @@ def dl_stock_data(tickers, period=None, interval='1d', start="2021-01-01", end=d
 
 
 def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
+    """
+    Scrape indices data from Yahoo Finance
+
+    :param indices: Indices in Yahoo Finance Format
+    :return: Latest Indices Data, Percentage Change
+    """
     # ytd_data = dl_stock_data(indices, period='2d')
     indices_data = dl_stock_data(indices, period='2d')
     chg = {}
@@ -36,6 +53,7 @@ def get_indices_now(indices=('^IXIC', '^NYA', '^GSPC')):
 def get_esg_score(ticker):
     """
     Scrape ESG risk score of specific ticker from Yahoo Finance
+
     :param ticker: Ticker on Yahoo Finance
     :return: ESH Risk Score, Level of Risk
     """
@@ -54,6 +72,7 @@ def get_esg_score(ticker):
 def weighted_esg(weights):
     """
     Get weighted ESG risk score according to stock weights
+
     :param weights: DataFrame of Weights
     :return: Weighted ESG Risk Score
     """
@@ -70,6 +89,7 @@ def weighted_esg(weights):
 def get_weights(input_ef):
     """
     Get weights of stocks from optimised Efficient Frontier
+
     :param input_ef: Efficient Frontier
     :return: DataFrame
     """
